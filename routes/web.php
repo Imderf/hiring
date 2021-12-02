@@ -34,15 +34,6 @@ Route::middleware(['auth'])->group(function () {
 
 Auth::routes();
 
-/* Route::get('/dashboard', function () {
-    return view('dashboard.index');
-})->name('dashboard.index');
-Route::get('/propuestas', function () {
-    return view('propuestas.index');
-})->name('propuestas.index');
-Route::get('/contratos', function () {
-    return view('contratos.index'); 
-})->name('contratos.index');*/
 Route::get('/confirm_register', function () {
     return view('auth.confirm_register');
 })->name('auth.confirm_register');
@@ -70,54 +61,14 @@ Route::get('/usuarios', function () {
     return view('usuarios.index');
 })->name('usuarios.index');
 
-Route::resource('prospectos', 'ProspectoController'); //CRUD
+
 
 Route::post('proyectos', 'ProyectoController@store')->name('proyectos.store');
 
-Route::get('propuestas', 'PropuestaController@index')->name('propuestas.index');
-Route::post('propuestas', 'PropuestaController@store')->name('propuestas.store');
-Route::post('propuestas/editarajax', 'PropuestaController@editarajax')->name('propuestas.editarajax');
+Route::get('/vacantes', function () {
+    return view('vacante.vacanteindex');
+});
 
-Route::get('/contratos', 'ContratoController@index')->name('contratos.index');
-
-Route::get('/contratos-ver', function () {
-    return view('contratos.ver');
-})->name('contratos.ver');
-
-Route::get('/contratos-facturas', function () {
-    return view('contratos.facturas');
-})->name('contratos.facturas');
-
-Route::get('/reportes', function () {
-    return view('reportes.index');
-})->name('reportes.index');
-
-Route::get('/aop', function () {
-    return view('aop.index');
-})->name('aop.index');
-
-Route::get('/equipo', function () {
-    return view('equipo.index');
-})->name('equipo.index');
-
-Route::get('/clientes', function () {
-    return view('clientes.index');
-})->name('clientes.index');
-
-Route::get('/cliente', function () {
-    return view('clientes.cliente');
-})->name('clientes.cliente');
-
-Route::get('/cliente-aop', function () {
-    return view('clientes.aop');
-})->name('clientes.aop');
-
-Route::get('/cliente-time', function () {
-    return view('clientes.time');
-})->name('clientes.time');
-
-//Route::post('users','UserController@store')->name('users.store');
-//Route::delete('users/{user}','UserController@destroy')->name('users.destroy');
 
 
 
