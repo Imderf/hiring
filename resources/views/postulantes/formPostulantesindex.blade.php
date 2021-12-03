@@ -154,11 +154,14 @@
                                 </div>
                                 <div class="col-md-4 left">
                                     <label>Country</label>
-                                    <select class="form-control">
-                                        <option>Colombia</option>
-                                        <option>Argentina</option>
-                                        <option>Brasil</option>
-                                    </select>
+                                    <select class="form-control" id="pais" name="pais" style="width: 100%;" required>
+                                        <option>Select Country</option>
+                                        @foreach ($paises as $p)
+                                          <option value="{{ $p->id }}" selected>
+                                            {!! $p->pnombre !!}
+                                          </option>
+                                        @endforeach
+                                      </select>
                                 </div>
                                 <div class="col-md-4 right">
                                     <label>City</label>
@@ -278,6 +281,14 @@
   .applications-radio-element {
     display: inline;
     margin-right: 30px;
+}
+.applications-form-container select.form-control {
+    height: 40px;
+    margin: 0;
+    margin-bottom: 1.5rem;
+    padding: 0 1.7rem;
+    position: relative;
+    width: 100%;
 }
 </style>
 

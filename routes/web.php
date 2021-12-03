@@ -65,7 +65,10 @@ Route::get('/usuarios', function () {
 
 Route::post('proyectos', 'ProyectoController@store')->name('proyectos.store');
 
+//POSTULANTES FORMULARIO
 Route::get('/postulantes', 'PostulantesController@index')->name('postulantes');
+Route::get('/new_postulantes', 'PostulantesController@create');
+Route::post('/create_postulantes', 'PostulantesController@store');
 
 
 
