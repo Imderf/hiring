@@ -65,9 +65,7 @@ Route::get('/usuarios', function () {
 
 Route::post('proyectos', 'ProyectoController@store')->name('proyectos.store');
 
-Route::get('/vacantes', function () {
-    return view('vacante.vacanteindex');
-});
+Route::get('/postulantes', 'PostulantesController@index')->name('postulantes');
 
 
 
