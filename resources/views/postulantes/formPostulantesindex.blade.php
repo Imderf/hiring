@@ -1,6 +1,6 @@
 @extends('layoutForm')
 {{-- @section('content') --}}
-<div align="center">
+{{-- <div align="left"> --}}
   <div class="applications-page">
     <div class="job-banner" style="background-image: urL(' https://stag.milenium.group/wp-content/themes/twentytwentyone/assets/images/job-banner.png');">
     </div>
@@ -133,26 +133,27 @@
                 </div>
                 <div class="applications-form-container">
                     <h2>SUBMIT YOUR APPLICATION</h2>
-                    <form>
+                    <form method="post" action="{{ URL::action('PostulantesController@store') }}" enctype=multipart/form-data>
+                        @csrf
                         <div class="applications-form-section-1">
                             <div class="row">
-                                <div class="col-md-4 left">
+                                <div class="col-md-6 left">
                                     <label>Full name</label>
-                                    <input class="form-control" type="text" placeholder="Full name*">
+                                    <input class="form-control" name="full_name" type="text" placeholder="Full name*">
                                 </div>
-                                <div class="col-md-4 right">
+                                <div class="col-md-6 right">
                                     <label>Phone</label>
-                                    <input class="form-control" type="text" placeholder="phone*">
+                                    <input class="form-control" name="phone" type="text" placeholder="phone*">
                                 </div>
-                                <div class="col-md-4 left">
+                                <div class="col-md-6 left">
                                     <label>Email</label>
-                                    <input class="form-control" type="email" placeholder="email*">
+                                    <input class="form-control" name="email" type="email" placeholder="email*">
                                 </div>
-                                <div class="col-md-4 right">
+                                <div class="col-md-6 right">
                                     <label>Date of Birth</label>
-                                    <input class="form-control" type="text" placeholder="AAA/MM/DD*">
+                                    <input class="form-control" name="fecha_nac" type="text" placeholder="AAA/MM/DD*">
                                 </div>
-                                <div class="col-md-4 left">
+                                <div class="col-md-6 left">
                                     <label>Country</label>
                                     <select class="form-control" id="pais" name="pais" style="width: 100%;" required>
                                         <option>Select Country</option>
@@ -163,14 +164,14 @@
                                         @endforeach
                                       </select>
                                 </div>
-                                <div class="col-md-4 right">
+                                <div class="col-md-6 right">
                                     <label>City</label>
-                                    <input class="form-control" type="text" placeholder="City*">
+                                    <input class="form-control" name="city" type="text" placeholder="City*">
                                 </div>
                                 <label>Documento de identificación</label>
-                                <input class="form-control col-12" type="number" placeholder="Documento*">
+                                <input class="form-control col-12" name="documento" type="number" placeholder="Documento*">
                                 <label>Address</label>
-                                <input class="form-control col-12" type="text" placeholder="Address*">
+                                <input class="form-control col-12" name="direccion" type="text" placeholder="Address*">
                             </div>
                         </div>
                         <hr>
@@ -195,7 +196,7 @@
                                     </div>
                                     <div class="hiring-pregrado">
                                         <label>Estudio de Pregrado</label>
-                                        <input type="text" class="form-control">
+                                        <input type="text" name="est_pregrado" class="form-control">
                                     </div>
                                     <div class="study-container">
                                         <div>
@@ -210,11 +211,13 @@
                                             <label>other</label>
                                             <input class="form-control" type="text" placeholder="OTHER (escribir)">
                                         </div>
-                                        <div>
-                                            <span onclick="deleteStudy(this)" class="fa fa-trash delete-study-button"></span>
-                                        </div>
+                                        
+                                            {{-- <div>
+                                                
+                                            </div> --}}
                                     </div>
                                     <button type="button" onclick="addStudy()" id="add-study-button"><span class="fa fa-plus"></span>Agregar estudio</button>
+                                    <span onclick="deleteStudy(this)" class="fa fa-trash delete-study-button"></span>
                                 </div>
                                 <div class="applications-form-row-2">
                                     <div class="">
@@ -230,14 +233,16 @@
                                         <input class="form-control" type="text" placeholder="OTHER (escribir)">
                                     </div>
                                 </div>
-                                <div class="applications-form-row-3">
+                                <div class="applications-form-row-1">
+                                    <label>Attach Resume/CV</label>
                                     <div class="">
-                                        <label>Attach Resume/CV</label>
+                                       
                                         <div class="form-control attach-cv">
                                             <input type="file" id="cv" name="cv">
-                                            <button>Subir <span class="fa fa-upload"></span></button>
+                                           {{--  <button>Subir <span class="fa fa-upload"></span></button> --}}
                                         </div>
                                     </div>
+                                    <br>
                                     <div class="">
                                         <label>Url del perfil en lN</label>
                                         <input class="form-control" type="text" placeholder="Url del perfil en lN">
@@ -274,7 +279,7 @@
             </footer>
     </div>
   </div>
-</div>
+{{-- </div> --}}
 {{-- @endsection    --}}
 
 <style>
@@ -290,6 +295,8 @@
     position: relative;
     width: 100%;
 }
+
+
 </style>
 
 
