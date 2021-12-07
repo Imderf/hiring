@@ -13,8 +13,7 @@ class VacantesController extends Controller
 
         $users = User::get();
         $cargos = Cargos::with('funciones')->get();
-        $cargos_funciones = Cargos::with('funciones')->findOrfail(2);
-        $cargos_requisitos = Cargos::with('requisitos')->findOrfail(2);
+        
         /* dd($cargos_funciones); */
         $paises = Paises::where('estado', 'A')->orderBy('id','ASC')->get();
         
@@ -22,10 +21,21 @@ class VacantesController extends Controller
         return view('vacante.vacanteIndex', [
             'users' => $users,
             'cargos' => $cargos,
-            'cargos_funciones' => $cargos_funciones,
-            'cargos_requisitos' => $cargos_requisitos,
+            /* 'cargos_funciones' => $cargos_funciones,
+            'cargos_requisitos' => $cargos_requisitos, */
             'paises' => $paises,
         ]);
+
+    }
+
+    public function buscar_funciones_requisitos($id_select){
+        
+
+        $cargos_funciones = Cargos::with('funciones')->with('requisitos')->findOrfail($id_select);
+        /* $cargos_requisitos = Cargos::with('requisitos')->findOrfail($id_select); */
+
+        //dd($cargos_funciones);
+        return $cargos_funciones;
 
     }
 }

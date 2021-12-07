@@ -72,6 +72,7 @@ Route::post('/create_postulantes', 'PostulantesController@store');
 
 //VACANTES
 Route::get('/vacantes', 'VacantesController@index')->name('vaca');
+Route::get('/vacantes/{id}', 'VacantesController@buscar_funciones_requisitos');
 
 
 

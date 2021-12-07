@@ -25,11 +25,11 @@
                     </div>
                     <div class="form_group">
                         <label for="">Posición a solicitar </label>
-                        <select id="cargos" name="cargos" required>
+                        <select id="cargos" name="cargos" onchange="changeFunc();" required>
                             <option value="" selected disabled>Seleccionar</option>
                             @foreach ($cargos as $c)
                                 <option value="{{ $c->id }}" {{-- selected --}}>
-                                   {!! $c->id !!} {!! $c->nombre !!}
+                                   {{-- {!! $c->id !!} --}} {!! $c->nombre !!}
                                 </option>
                             @endforeach
                         </select>
@@ -51,42 +51,13 @@
                             <div class="col-md-9 content_list">
                                 <div class="p-3">
                                     <ul class="vacante-funciones-list" id="vacante-funciones-list">
-                                       {{--  <li class="vacante-function-item">
-                                            <p contenteditable="true">Integer viverra dolor non.</p>
-                                            <span onclick="deleteFunction(this)" class="fa fa-trash delete-function-button"></span>
-                                        </li> --}}
-                                        @if(count($cargos_funciones->funciones) > 0)
-                                            @foreach($cargos_funciones->funciones as $f)
-                                                <li class="vacante-function-item">
-                                                        <p contenteditable="true">{{$f->nombre}}</p>
-                                                        <span onclick="deleteFunction(this)" class="fa fa-trash delete-function-button"></span>
-                                                </li>
-                                            @endforeach
-                                        @else 
-                                            <li class="vacante-function-item">
-                                                <p>Sin Funciones</p>
-                                            </li>
-                                        @endif
-                                        {{-- <li class="vacante-function-item">
-                                            <p contenteditable="true">Integer viverra dolor non.</p>
-                                            <span onclick="deleteFunction(this)" class="fa fa-trash delete-function-button"></span>
-                                        </li>
-                                        <li class="vacante-function-item">
-                                            <p contenteditable="true">Integer viverra dolor non.</p>
-                                            <span onclick="deleteFunction(this)" class="fa fa-trash delete-function-button"></span>
-                                        </li>
-                                        <li class="vacante-function-item">
-                                            <p contenteditable="true">Integer viverra dolor non.</p>
-                                            <span onclick="deleteFunction(this)" class="fa fa-trash delete-function-button"></span>
-                                        </li>
-                                        <li class="vacante-function-item">
-                                            <p contenteditable="true">Integer viverra dolor non.</p>
-                                            <span onclick="deleteFunction(this)" class="fa fa-trash delete-function-button"></span>
-                                        </li>
-                                        <li class="vacante-function-item">
-                                            <p contenteditable="true">Integer viverra dolor non.</p>
-                                            <span onclick="deleteFunction(this)" class="fa fa-trash delete-function-button"></span>
-                                        </li> --}}
+                                                
+                                        {{-- <li class="vacante-function-item"> --}}
+                                            <p contenteditable="true" id="list_fx" name="list_fx[]" class="listasprinc"></p>
+                                        
+                                            {{-- <span onclick="deleteFunction(this)" class="fa fa-trash delete-function-button"></span> --}}
+                                        {{-- </li> --}}
+                                          
                                     </ul>
                                     <button class="add-function-button" onclick="addFunction()" type="button">Agregar función<span class="fa fa-plus"></span></button>
                                 </div>
@@ -103,39 +74,10 @@
                             </div>
                             <div class="col-md-9 content_list">
                                 <div class="p-3">
-                                    <ul class="vacante-requisitos-list" id="vacante-requisitos-list">
-                                        @if(count($cargos_requisitos->requisitos) > 0))
-                                            @foreach($cargos_requisitos->requisitos as $r)
-                                                <li class="vacante-function-item">
-                                                        <p contenteditable="true">{{$r->nombre}}</p>
-                                                        <span onclick="deleteFunction(this)" class="fa fa-trash delete-function-button"></span>
-                                                </li>
-                                            @endforeach
-                                        @else 
-                                            <li class="vacante-function-item">
-                                                <p>Sin Requisitos</p>
-                                            </li>
-                                        @endif
-                                        {{-- <li class="vacante-requisitos-item">
-                                            <p contenteditable="true">Integer viverra dolor non.</p>
-                                            <span onclick="deleteRequisito(this)" class="fa fa-trash delete-requisitos-button"></span>
-                                        </li>
-                                        <li class="vacante-requisitos-item">
-                                            <p contenteditable="true">Integer viverra dolor non.</p>
-                                            <span onclick="deleteRequisito(this)" class="fa fa-trash delete-requisitos-button"></span>
-                                        </li>
-                                        <li class="vacante-requisitos-item">
-                                            <p contenteditable="true">Integer viverra dolor non.</p>
-                                            <span onclick="deleteRequisito(this)" class="fa fa-trash delete-requisitos-button"></span>
-                                        </li>
-                                        <li class="vacante-requisitos-item">
-                                            <p contenteditable="true">Integer viverra dolor non.</p>
-                                            <span onclick="deleteRequisito(this)" class="fa fa-trash delete-requisitos-button"></span>
-                                        </li>
-                                        <li class="vacante-requisitos-item">
-                                            <p contenteditable="true">Integer viverra dolor non.</p>
-                                            <span onclick="deleteRequisito(this)" class="fa fa-trash delete-requisitos-button"></span>
-                                        </li> --}}
+                                    <ul class="vacante-requisitos-list">
+                                        {{-- <li class="vacante-function-item"> --}}
+                                            <p contenteditable="true" id="list_requisitos" name="list_requisitos[]" class="listasprinc"></p>
+                                       {{--  </li> --}}
                                     </ul>
                                     <button class="add-requisitos-button" onclick="addRequisito()" type="button">Agregar requisito<span class="fa fa-plus"></span></button>
                                 </div>
@@ -404,4 +346,76 @@
         item.closest('.vacante-requisitos-item').remove()
     }
 </script>
+
+<script>
+
+$('#cargos').on('select2:select', function (e) {
+    changeFunc();
+    
+   /*  changeReq(); */
+});
+
+    function changeFunc(callback){
+        var selectBox = document.getElementById("cargos");
+        var id_selectedValue = selectBox.options[selectBox.selectedIndex].value;
+        //alert(id_selectedValue);
+
+        $.ajax({
+			            type: "get",
+			            url: "/vacantes/"+id_selectedValue,
+			            success: function( respuesta ){
+			            	//Si existe seteamos los datos
+							console.log('INTRO')
+							/* console.log(respuesta.funciones)
+                            console.log(respuesta.requisitos) */
+                            /* $('#list_fx').css('display', 'none'); */
+                            $.each(respuesta.funciones, function (key, value) {
+                            $("#list_fx").append("<li value=" + value.id + ">" + value.nombre + "</li>");
+                            
+                            /* $.each(respuesta.requisitos, function (key, value) {
+                            $("#list_requisitos").append("<option value=" + value.id + ">" + value.nombre + "</option>"); */
+                            
+                        });
+                            
+                        changeReq();
+							
+							
+
+
+
+
+	                	}
+	                });
+
+    }
+
+    function changeReq(callback){
+        var selectBox = document.getElementById("cargos");
+        var id_selectedValue = selectBox.options[selectBox.selectedIndex].value;
+        //alert(id_selectedValue);
+        
+
+        $.ajax({
+			            type: "get",
+			            url: "/vacantes/"+id_selectedValue,
+			            success: function( respuesta ){
+			            	//Si existe seteamos los datos
+							console.log('req')
+					
+                            console.log(respuesta.requisitos)
+
+                            /* $('#list_requisitos').css('display', 'none'); */
+
+                            $.each(respuesta.requisitos, function (key, value) {
+                            $("#list_requisitos").append("<li value=" + value.id + ">" + value.nombre + "</li>");
+                            
+                            });
+
+	                	}
+	                });
+
+    }
+    
+</script>
+
 @endsection     
