@@ -17,4 +17,12 @@ class Cargos extends Model
         'descripcion_cargo_id', 
 
     ];
+
+    public function funciones(){
+        return $this->belongsToMany('App\Funciones','cargos_has_funciones','cargo_id', 'funciones_id');
+    }
+
+    public function requisitos(){
+        return $this->belongsToMany('App\Requisitos','cargo_has_requisitos','cargo_id', 'requisitos_id');
+    }
 }

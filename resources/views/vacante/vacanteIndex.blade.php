@@ -29,7 +29,7 @@
                             <option value="" selected disabled>Seleccionar</option>
                             @foreach ($cargos as $c)
                                 <option value="{{ $c->id }}" {{-- selected --}}>
-                                    {!! $c->nombre !!}
+                                   {!! $c->id !!} {!! $c->nombre !!}
                                 </option>
                             @endforeach
                         </select>
@@ -51,7 +51,23 @@
                             <div class="col-md-9 content_list">
                                 <div class="p-3">
                                     <ul class="vacante-funciones-list" id="vacante-funciones-list">
-                                        <li class="vacante-function-item">
+                                       {{--  <li class="vacante-function-item">
+                                            <p contenteditable="true">Integer viverra dolor non.</p>
+                                            <span onclick="deleteFunction(this)" class="fa fa-trash delete-function-button"></span>
+                                        </li> --}}
+                                        @if(count($cargos_funciones->funciones) > 0)
+                                            @foreach($cargos_funciones->funciones as $f)
+                                                <li class="vacante-function-item">
+                                                        <p contenteditable="true">{{$f->nombre}}</p>
+                                                        <span onclick="deleteFunction(this)" class="fa fa-trash delete-function-button"></span>
+                                                </li>
+                                            @endforeach
+                                        @else 
+                                            <li class="vacante-function-item">
+                                                <p>Sin Funciones</p>
+                                            </li>
+                                        @endif
+                                        {{-- <li class="vacante-function-item">
                                             <p contenteditable="true">Integer viverra dolor non.</p>
                                             <span onclick="deleteFunction(this)" class="fa fa-trash delete-function-button"></span>
                                         </li>
@@ -70,11 +86,7 @@
                                         <li class="vacante-function-item">
                                             <p contenteditable="true">Integer viverra dolor non.</p>
                                             <span onclick="deleteFunction(this)" class="fa fa-trash delete-function-button"></span>
-                                        </li>
-                                        <li class="vacante-function-item">
-                                            <p contenteditable="true">Integer viverra dolor non.</p>
-                                            <span onclick="deleteFunction(this)" class="fa fa-trash delete-function-button"></span>
-                                        </li>
+                                        </li> --}}
                                     </ul>
                                     <button class="add-function-button" onclick="addFunction()" type="button">Agregar función<span class="fa fa-plus"></span></button>
                                 </div>
@@ -92,7 +104,19 @@
                             <div class="col-md-9 content_list">
                                 <div class="p-3">
                                     <ul class="vacante-requisitos-list" id="vacante-requisitos-list">
-                                        <li class="vacante-requisitos-item">
+                                        @if(count($cargos_requisitos->requisitos) > 0))
+                                            @foreach($cargos_requisitos->requisitos as $r)
+                                                <li class="vacante-function-item">
+                                                        <p contenteditable="true">{{$r->nombre}}</p>
+                                                        <span onclick="deleteFunction(this)" class="fa fa-trash delete-function-button"></span>
+                                                </li>
+                                            @endforeach
+                                        @else 
+                                            <li class="vacante-function-item">
+                                                <p>Sin Requisitos</p>
+                                            </li>
+                                        @endif
+                                        {{-- <li class="vacante-requisitos-item">
                                             <p contenteditable="true">Integer viverra dolor non.</p>
                                             <span onclick="deleteRequisito(this)" class="fa fa-trash delete-requisitos-button"></span>
                                         </li>
@@ -111,11 +135,7 @@
                                         <li class="vacante-requisitos-item">
                                             <p contenteditable="true">Integer viverra dolor non.</p>
                                             <span onclick="deleteRequisito(this)" class="fa fa-trash delete-requisitos-button"></span>
-                                        </li>
-                                        <li class="vacante-requisitos-item">
-                                            <p contenteditable="true">Integer viverra dolor non.</p>
-                                            <span onclick="deleteRequisito(this)" class="fa fa-trash delete-requisitos-button"></span>
-                                        </li>
+                                        </li> --}}
                                     </ul>
                                     <button class="add-requisitos-button" onclick="addRequisito()" type="button">Agregar requisito<span class="fa fa-plus"></span></button>
                                 </div>
