@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Cargos;
 use App\Paises;
+use App\Vacantes;
+
+use Carbon\Carbon;
 
 use Illuminate\Http\Request;
 
@@ -26,6 +29,34 @@ class VacantesController extends Controller
             'paises' => $paises,
         ]);
 
+    }
+
+    public function store(Request $request){
+        
+        
+        /* dd($request->all()); */
+
+        /* $existe_cargo = Cargos::where('nombre', $request->input('cargos'))->where('persona_clasificacion', $per)->get();
+        dd($existe_cargo); */
+        
+        $fecha = Carbon::now();
+        $fec = $fecha->toDateString();
+        
+        
+        /* dd($fec); */
+        $vacantes = new Vacantes();
+        $vacantes->fill([
+            'estado'=> 'A',
+            'creado'=> $fec,
+            'users_id'=> $request->input('users'),
+            'cargo_id'=> $request->input('id_cargo'),
+            'paises_id'=> $request->input('pais'),
+            
+        ]);
+        $vacantes->save();
+
+        return redirect('/dashboard');
+       
     }
 
     public function buscar_funciones_requisitos($id_select){

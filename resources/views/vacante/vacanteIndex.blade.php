@@ -7,7 +7,8 @@
                 <h5>Solicitar Vacante</h5>
             </div>
             <div class="content_form">
-                <form method="post">
+                <form method="post" action="{{ URL::action('VacantesController@store') }}" enctype=multipart/form-data>
+                    @csrf
                     <div class="form_group">
                         <label for="">Solicitado por</label>
                         <select id="users" name="users" required>
@@ -21,11 +22,11 @@
                     </div>
                     <div class="form_group">
                         <label for="">e-mail</label>
-                        <input type="email" name="" id="" value="imderf.rios@milenium.group" required>
+                        <input type="email" name="email" id="email" value="{{old('email')}}" required>
                     </div>
                     <div class="form_group">
                         <label for="">Posición a solicitar </label>
-                        <select id="cargos" name="cargos" onchange="changeFunc();" required>
+                        <select id="id_cargo" name="id_cargo" onchange="changeFunc();" required>
                             <option value="" selected disabled>Seleccionar</option>
                             @foreach ($cargos as $c)
                                 <option value="{{ $c->id }}" {{-- selected --}}>
@@ -36,7 +37,7 @@
                     </div>
                     <div class='provisional'>
                         <label for="">Cargo:</label>
-                        <input type="text" name="name_cargo" id="name_cargo" value='Nombre del cargo'>
+                        <input type="text" name="name_cargo" id="name_cargo" {{-- value='Nombre del cargo' --}}>
                         <label for="">Descripción del cargo:</label>
                         <textarea name="description_cargo" id="description_cargo" cols="30" rows="10"></textarea>
                         <div class=fun_req>
@@ -53,7 +54,9 @@
                                     <ul class="vacante-funciones-list" id="vacante-funciones-list">
                                                 
                                         {{-- <li class="vacante-function-item"> --}}
-                                            <p contenteditable="true" id="list_fx" name="list_fx[]" class="listasprinc"></p>
+                                            {{-- <p contenteditable="true" id="list_fx" name="list_fx[]" class="listasprinc"></p> --}}
+                                            <input type="hidden" onclick="" />
+                                            <div contenteditable="true" id="list_fx" name="list_fx" class="listasprinc"></div>
                                         
                                             {{-- <span onclick="deleteFunction(this)" class="fa fa-trash delete-function-button"></span> --}}
                                         {{-- </li> --}}
@@ -76,7 +79,7 @@
                                 <div class="p-3">
                                     <ul class="vacante-requisitos-list">
                                         {{-- <li class="vacante-function-item"> --}}
-                                            <p contenteditable="true" id="list_requisitos" name="list_requisitos[]" class="listasprinc"></p>
+                                            <p contenteditable="true" id="list_requisitos" name="list_requisitos" class="listasprinc"></p>
                                        {{--  </li> --}}
                                     </ul>
                                     <button class="add-requisitos-button" onclick="addRequisito()" type="button">Agregar requisito<span class="fa fa-plus"></span></button>
@@ -101,14 +104,17 @@
                                 <i class="fa fa-pencil" aria-hidden="true"></i>
                                 Editar
                             </a> -->
-                            <a class="button_form_save" onclick="modalform2()">
+                            {{-- <a class="button_form_save" onclick="modalform2()">
                                 <i class="fa fa-check-circle" aria-hidden="true"></i>
                                 Enviar
-                            </a>
+                            </a> --}}
+                            <button class="button_form_save" {{-- onclick="modalform3()" --}}>
+                                <i class="fa fa-check-circle" aria-hidden="true"></i>
+                                Enviar
+                            </button>
                         </div>
                     </div>
                 </form>
-
             </div>
         </div>
     </div>
@@ -349,31 +355,24 @@
 
 <script>
 
-$('#cargos').on('select2:select', function (e) {
+$('#id_cargo').on('select2:select', function (e) {
     changeFunc();
-    
-   /*  changeReq(); */
 });
 
     function changeFunc(callback){
-        var selectBox = document.getElementById("cargos");
+        $('ul li').remove();//limpia los ul li 
+        var selectBox = document.getElementById("id_cargo");
         var id_selectedValue = selectBox.options[selectBox.selectedIndex].value;
-        //alert(id_selectedValue);
+
 
         $.ajax({
 			            type: "get",
 			            url: "/vacantes/"+id_selectedValue,
 			            success: function( respuesta ){
 			            	//Si existe seteamos los datos
-							console.log('INTRO')
-							/* console.log(respuesta.funciones)
-                            console.log(respuesta.requisitos) */
-                            /* $('#list_fx').css('display', 'none'); */
                             $.each(respuesta.funciones, function (key, value) {
                             $("#list_fx").append("<li value=" + value.id + ">" + value.nombre + "</li>");
-                            
-                            /* $.each(respuesta.requisitos, function (key, value) {
-                            $("#list_requisitos").append("<option value=" + value.id + ">" + value.nombre + "</option>"); */
+                
                             
                         });
                             
@@ -390,9 +389,8 @@ $('#cargos').on('select2:select', function (e) {
     }
 
     function changeReq(callback){
-        var selectBox = document.getElementById("cargos");
+        var selectBox = document.getElementById("id_cargo");
         var id_selectedValue = selectBox.options[selectBox.selectedIndex].value;
-        //alert(id_selectedValue);
         
 
         $.ajax({
@@ -400,11 +398,6 @@ $('#cargos').on('select2:select', function (e) {
 			            url: "/vacantes/"+id_selectedValue,
 			            success: function( respuesta ){
 			            	//Si existe seteamos los datos
-							console.log('req')
-					
-                            console.log(respuesta.requisitos)
-
-                            /* $('#list_requisitos').css('display', 'none'); */
 
                             $.each(respuesta.requisitos, function (key, value) {
                             $("#list_requisitos").append("<li value=" + value.id + ">" + value.nombre + "</li>");
