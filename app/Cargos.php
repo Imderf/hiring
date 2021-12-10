@@ -14,7 +14,6 @@ class Cargos extends Model
         'nombre', 
         'decripcion', 
         'creado', 
-        'descripcion_cargo_id', 
 
     ];
 
@@ -24,5 +23,9 @@ class Cargos extends Model
 
     public function requisitos(){
         return $this->belongsToMany('App\Requisitos','cargo_has_requisitos','cargo_id', 'requisitos_id');
+    }
+
+    public function descripcion_cargo(){
+        return $this->hasOne('App\DescripcionCargo','id_cargo', 'id');
     }
 }

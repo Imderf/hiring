@@ -11,7 +11,7 @@
                     @csrf
                     <div class="form_group">
                         <label for="">Solicitado por</label>
-                        <select id="users" name="users" required>
+                        <select id="users" name="users" onchange="userFunc();" required>
                             <option value="" selected disabled>Seleccionar</option>
                             @foreach ($users as $u)
                                 <option value="{{ $u->id }}" {{-- selected --}}>
@@ -22,24 +22,27 @@
                     </div>
                     <div class="form_group">
                         <label for="">e-mail</label>
-                        <input type="email" name="email" id="email" value="{{old('email')}}" required>
+                        <div id="list_email" name="list_email" required></div>
+                        {{-- <input type="email" name="email" id="email" value="{{old('email')}}" required> --}}
                     </div>
                     <div class="form_group">
                         <label for="">Posición a solicitar </label>
-                        <select id="id_cargo" name="id_cargo" onchange="changeFunc();" required>
+                        <select id="id_cargo" name="id_cargo" onchange="changeFunc(); cargo_descripcion();" required>
                             <option value="" selected disabled>Seleccionar</option>
                             @foreach ($cargos as $c)
                                 <option value="{{ $c->id }}" {{-- selected --}}>
-                                   {{-- {!! $c->id !!} --}} {!! $c->nombre !!}
+                                   {!! $c->nombre !!}
                                 </option>
                             @endforeach
                         </select>
                     </div>
                     <div class='provisional'>
                         <label for="">Cargo:</label>
-                        <input type="text" name="name_cargo" id="name_cargo" {{-- value='Nombre del cargo' --}}>
+                        <div contenteditable="true" id="cargo_fx"></div>
+                        {{-- <input type="text" name="name_cargo" id="name_cargo"> --}} {{-- value='Nombre del cargo' --}}
                         <label for="">Descripción del cargo:</label>
-                        <textarea name="description_cargo" id="description_cargo" cols="30" rows="10"></textarea>
+                        <div contenteditable="true" id="descripcion_cargo_fx"></div>
+                        {{-- <textarea name="description_cargo" id="description_cargo" cols="30" rows="10"></textarea> --}}
                         <div class=fun_req>
                             <div class="col-md-3 content_title">
                                 <div class="col-md-4 p-0">
@@ -354,10 +357,69 @@
 </script>
 
 <script>
+$('#users').on('select2:select', function (e){
+    userFunc();
+});
 
 $('#id_cargo').on('select2:select', function (e) {
+    cargo_descripcion();
+
     changeFunc();
 });
+
+
+    function cargo_descripcion(callback){
+        $('li').remove();//limpia los ul li 
+        var selectBox = document.getElementById("id_cargo");
+        console.log(id_selectedValue)
+        var id_selectedValue = selectBox.options[selectBox.selectedIndex].value;
+
+        console.log(id_selectedValue)
+        $.ajax({
+			            type: "get",
+			            url: "/vacantes/cargos/"+id_selectedValue,
+			            success: function( respuesta ){
+			            	//Si existe seteamos los datos
+                           
+                            $("#cargo_fx").append("<li value=" + respuesta.id + ">" + respuesta.nombre + "</li>");
+
+                            $("#descripcion_cargo_fx").append("<li value=" + respuesta.id + ">" + respuesta.descripcion + "</li>");
+
+
+	                	}
+	            });
+
+    }
+
+    function userFunc(callback){
+        $('input').remove();//limpia los ul li 
+        var selectBox = document.getElementById("users");
+        var id_selectedValue = selectBox.options[selectBox.selectedIndex].value;
+        
+        $.ajax({
+			            type: "get",
+			            url: "/vacantes/user/"+id_selectedValue,
+			            success: function( respuesta ){
+			            	//Si existe seteamos los datos
+                            console.log(respuesta)
+                            
+                            $("#list_email").append("<input value="+ respuesta.email +">");
+                
+                            
+                   
+                            
+                
+							
+							
+
+
+
+
+	                	}
+	                });
+
+    }
+
 
     function changeFunc(callback){
         $('ul li').remove();//limpia los ul li 
@@ -408,6 +470,9 @@ $('#id_cargo').on('select2:select', function (e) {
 	                });
 
     }
+
+    
+
     
 </script>
 
