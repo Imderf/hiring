@@ -26,6 +26,13 @@ class Cargos extends Model
     }
 
     public function descripcion_cargo(){
-        return $this->hasOne('App\DescripcionCargo','id_cargo', 'id');
+        return $this->hasOne('App\Vacantes','cargo_id', 'id');
+    }
+
+    public function cargos_req_confirmados(){
+        return $this->hasMany('App\CargosRequisitosConfirmados','cargos_id', 'id');
+    }
+    public function cargos_fx_confirmados(){
+        return $this->hasMany('App\CargosFuncionesConfirmados','cargos_id', 'id');
     }
 }

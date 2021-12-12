@@ -19,5 +19,9 @@ class Vacantes extends Model
         'users_id', 
         'cargo_id', 
         'paises_id',
+        'nombre_cargo_modificado',
+        'descripcion_cargo_modificado',
     ];
+    
+    
 }

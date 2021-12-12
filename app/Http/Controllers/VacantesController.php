@@ -9,6 +9,7 @@ use App\DescripcionCargo;
 use App\DescripcionConfirmado;
 
 use Carbon\Carbon;
+use DB;
 
 use Illuminate\Http\Request;
 
@@ -27,86 +28,104 @@ class VacantesController extends Controller
         return view('vacante.vacanteIndex', [
             'users' => $users,
             'cargos' => $cargos,
-            /* 'cargos_funciones' => $cargos_funciones,
-            'cargos_requisitos' => $cargos_requisitos, */
             'paises' => $paises,
         ]);
 
     }
 
     public function store(Request $request){
+
+        $req_confirmados = Cargos::with('funciones')
+                                ->with('requisitos')
+                                ->findOrfail($request->input('id_cargo'));
+                            /* with('cargos_req_confirmados')
+                                 ->with('cargos_fx_confirmados') */
+                                 
+
         
-        $descripcion = Cargos::with('descripcion_cargo')->findOrfail($request->input('id_cargo'));
-        if($descripcion->descripcion_cargo == null){
-            /* NO HACE NADA YA QE NO TIENE UNA DESCRIPCION_CARGO NUEVA */
-            /* SOLO CREA LA VACANTE */
-            $fecha = Carbon::now();
-            $fec = $fecha->toDateString();
-            $vacantes = new Vacantes();
-            $vacantes->fill([
-                'estado'=> 'A',
-                'creado'=> $fec,
-                'users_id'=> $request->input('users'),
-                'cargo_id'=> $request->input('id_cargo'),
-                'paises_id'=> $request->input('pais'),
+        foreach($req_confirmados->funciones as $f){
+            $a = $f->nombre;
+        }
+
+        foreach($req_confirmados->requisitos as $r){
+            $b = $r->nombre;
+        }
+
+        /* dd($a,$b); */
+
+        
+        $cargos_vacantes_mod = Cargos::with('descripcion_cargo')->findOrfail($request->input('id_cargo'));
+        $fecha = Carbon::now();
+        $fec = $fecha->toDateString();
+        
+        /* dd($cargos_vacantes_mod->nombre, $cargos_vacantes_mod->descripcion ,$request->input('cargo'),$request->input('descripcion')); */
+        if(strcmp ($cargos_vacantes_mod->nombre , $request->input('cargo')) == 0){
+            if(strcmp ($cargos_vacantes_mod->descripcion ,$request->input('descripcion')) == 0){
+
                 
-            ]);
-            $vacantes->save();
+                $vacantes = new Vacantes();
+                $vacantes->fill([
+                    'estado'=> 'A',
+                    'creado'=> $fec,
+                    'users_id'=> $request->input('users'),
+                    'cargo_id'=> $request->input('id_cargo'),
+                    'paises_id'=> $request->input('pais'),
+                    'nombre_cargo_modificado'=> NULL,
+                    'descripcion_cargo_modificado'=> NULL,
+                    
+                ]);
+                $vacantes->save();
+
+            }else{
+                $vacantes = new Vacantes();
+                $vacantes->fill([
+                    'estado'=> 'A',
+                    'creado'=> $fec,
+                    'users_id'=> $request->input('users'),
+                    'cargo_id'=> $request->input('id_cargo'),
+                    'paises_id'=> $request->input('pais'),
+                    'nombre_cargo_modificado'=> NULL,
+                    'descripcion_cargo_modificado'=> $request->input('descripcion'),
+                ]);
+                $vacantes->save();
+            }
+
+
         }
         else{
+                if(strcmp ($cargos_vacantes_mod->descripcion , $request->input('descripcion')) ==0 ){
+                    $vacantes = new Vacantes();
+                    $vacantes->fill([
+                        'estado'=> 'A',
+                        'creado'=> $fec,
+                        'users_id'=> $request->input('users'),
+                        'cargo_id'=> $request->input('id_cargo'),
+                        'paises_id'=> $request->input('pais'),
+                        'nombre_cargo_modificado'=> $request->input('cargo'),
+                        'descripcion_cargo_modificado'=> NULL,
+                        
+                    ]);
+                    $vacantes->save();
+                }
+                else{
+                    $vacantes = new Vacantes();
+                    $vacantes->fill([
+                        'estado'=> 'A',
+                        'creado'=> $fec,
+                        'users_id'=> $request->input('users'),
+                        'cargo_id'=> $request->input('id_cargo'),
+                        'paises_id'=> $request->input('pais'),
+                        'nombre_cargo_modificado'=> $request->input('cargo'),
+                        'descripcion_cargo_modificado'=> $request->input('descripcion'),
+                        
+                    ]);
+                    $vacantes->save();
 
-            $dc = new DescripcionConfirmado();
-            $dc->fill([
-                'nombre'=> $request->input('name_cargo'),
-                'descripcion_confirmadocol'=> $request->input('description_cargo'),
-                'id_descripcion'=> NULL,
-            ]);
-            $dc->save();
-
-            //BUSCO EL ULTIMO ID INSERTADO EN DescripcionConfirmado
-            $descrip_conf= DescripcionConfirmado::all();
-            $last = $descrip_conf->last();
-            $ultimo_id = $last->id;
-
-
-            $description = new DescripcionCargo();
-            $description->fill([
-                'nombre'=> $request->input('name_cargo'),
-                'id_cargo'=> $request->input('id_cargo'),
-                'descripcion_confirmado_id'=> $ultimo_id,
-                
-            ]);
-            $description->save();
-
-        
-            //busco el ultimo id ingresado a la tabla descripcion_cargo
-            $descrip_conf_dc= DescripcionCargo::all();
-            $last = $descrip_conf_dc->last();
-            $ultimo_id_dc = $last->id;
-
-
-            //primero busco el ultimo obj y luego actualizo la tabla qe tenia null en id_descripcion
-            $dc2 = DescripcionConfirmado::findOrfail($ultimo_id_dc);
-            $dc2->id_descripcion = $ultimo_id_dc;
-            $dc2->update();
-
-
-            $fecha = Carbon::now();
-            $fec = $fecha->toDateString();
-            $vacantes = new Vacantes();
-            $vacantes->fill([
-                'estado'=> 'A',
-                'creado'=> $fec,
-                'users_id'=> $request->input('users'),
-                'cargo_id'=> $request->input('id_cargo'),
-                'paises_id'=> $request->input('pais'),
-                
-            ]);
-            $vacantes->save();
+                    }
+                    
+            
+            
         }
-        
-          
-
         return redirect('/dashboard');
        
     }
@@ -132,7 +151,28 @@ class VacantesController extends Controller
     public function buscar_cargo_descripcion($id){
 
         $cargos = Cargos::with('descripcion_cargo')->findOrfail($id);
+
+        /* $cargos = Cargos::all();
+        $cargos->last(); */
+    
+        /* Cargos::with('descripcion_cargo')->findOrfail($id) */
+        /* $vac = Cargos::with('descripcion_cargo')->findOrfail($id);
+        dd($vac);
+        $ultima_vacante = $vac->last(); */
+
+        /* dd($cargos->last()); */
+
+        /* $materials = Material::with('costs')
+                         ->where('nombre','LIKE','%'.$request->val.'%')    
+                         ->take(5)->get()->toJson(); */
+        //El extra que necesitas:
+
+         /* $last_cost = Cargos::whereHas('descripcion_cargo')->get()->last(); */
+         $last_cost = DB::table('vacantes')->latest('id')->where('cargo_id', '=', $id)->first();
+
         
+        /* dd($last_cost); */
+
         return $cargos;
     }
 }

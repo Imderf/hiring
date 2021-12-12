@@ -22,8 +22,7 @@
                     </div>
                     <div class="form_group">
                         <label for="">e-mail</label>
-                        <div id="list_email" name="list_email" required></div>
-                        {{-- <input type="email" name="email" id="email" value="{{old('email')}}" required> --}}
+                        <div id="list_email" name="list_email" required {{-- style="width:400px; --}}></div>
                     </div>
                     <div class="form_group">
                         <label for="">Posición a solicitar </label>
@@ -41,7 +40,7 @@
                         <div contenteditable="true" id="cargo_fx"></div>
                         {{-- <input type="text" name="name_cargo" id="name_cargo"> --}} {{-- value='Nombre del cargo' --}}
                         <label for="">Descripción del cargo:</label>
-                        <div contenteditable="true" id="descripcion_cargo_fx"></div>
+                        <div contenteditable="true" id="descripcion_cargo_fx" readonly></div>
                         {{-- <textarea name="description_cargo" id="description_cargo" cols="30" rows="10"></textarea> --}}
                         <div class=fun_req>
                             <div class="col-md-3 content_title">
@@ -59,7 +58,7 @@
                                         {{-- <li class="vacante-function-item"> --}}
                                             {{-- <p contenteditable="true" id="list_fx" name="list_fx[]" class="listasprinc"></p> --}}
                                             <input type="hidden" onclick="" />
-                                            <div contenteditable="true" id="list_fx" name="list_fx" class="listasprinc"></div>
+                                            <div id="list_fx" name="list_fx" class="listasprinc"></div>
                                         
                                             {{-- <span onclick="deleteFunction(this)" class="fa fa-trash delete-function-button"></span> --}}
                                         {{-- </li> --}}
@@ -82,7 +81,8 @@
                                 <div class="p-3">
                                     <ul class="vacante-requisitos-list">
                                         {{-- <li class="vacante-function-item"> --}}
-                                            <p contenteditable="true" id="list_requisitos" name="list_requisitos" class="listasprinc"></p>
+                                            <input type="hidden" onclick="" />
+                                            <p id="list_requisitos" name="list_requisitos" class="listasprinc"></p>
                                        {{--  </li> --}}
                                     </ul>
                                     <button class="add-requisitos-button" onclick="addRequisito()" type="button">Agregar requisito<span class="fa fa-plus"></span></button>
@@ -122,94 +122,7 @@
         </div>
     </div>
 </section>
-<div class="modal_form modal_form1 vac edit" id="PopupLegal">
-    <div class='content_modal'>
-        <div class="cuerpo_modal_form">
-            <div class="info_modal">
-                <span class="close-btn" onclick='out_modal()'><i class="fa fa-times-circle " aria-hidden="true"></i></span>
-                <div class="h-100">
-                    <div class='col-md-12 mt-2 mb-2'>
-                    <h3 >Editar Solicitud</h3>
-                        <form method="post">
-                            <div class="form_group">
-                                <label for="">Solicitado por</label>
-                                <select name="" id="">
-                                    <option value="" selected disabled>Seleccionar</option>
-                                    <option value="">Option 1</option>
-                                    <option value="">Option 2</option>
-                                </select>
-                            </div>
-                            <div class="form_group">
-                                <label for="">e-mail</label>
-                                <input type="email" name="" id="">
-                            </div>
-                            <div class="form_group">
-                                <label for="">Posición a solicitar </label>
-                                <select name="" id="">
-                                    <option value="" selected disabled>Seleccionar cargo</option>
-                                </select>
-                            </div>
-                            <div class='form_group'>
-                                <label for="">Cargo:</label>
-                                <input type="text" value='Nombre del cargo'>
-                            </div>
-                            <div class='form_group border-none'>
-                                <label for="">Descripción del cargo:</label>
-                                <textarea name="" id=""></textarea>
-                            </div>
-                            <div class='form_group border-none'>
-                                <label for="">Funciones</label>
-                                <select name="proyectos[]" class='select2' multiple="multiple" required>
-                                    <option value="Integer viverra dolor non.">Integer viverra dolor non.</option>
-                                    <option value="Donec pellentesque sem.">Donec pellentesque sem.</option>
-                                    <option value="Integer viverra dolor non.">Integer viverra dolor non.</option>
-                                    <option value="Donec pellentesque sem.">Donec pellentesque sem.</option>
-                                    <option value="Integer viverra dolor non.">Integer viverra dolor non.</option>
-                                    <option value="Donec pellentesque sem.">Donec pellentesque sem.</option>
-                                </select>
-                                <div class='btn' onclick='modalform4()'>
-                                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
-                                    Adicionar Función
-                                </div>
-                            </div>
-                            <div class='form_group border-none'>
-                                <label for="">Requisitos</label>
-                                <select name="proyectos[]" class='select2' multiple="multiple" required>
-                                    <option value="Integer viverra dolor non.">Integer viverra dolor non.</option>
-                                    <option value="Donec pellentesque sem.">Donec pellentesque sem.</option>
-                                    <option value="Integer viverra dolor non.">Integer viverra dolor non.</option>
-                                    <option value="Donec pellentesque sem.">Donec pellentesque sem.</option>
-                                    <option value="Integer viverra dolor non.">Integer viverra dolor non.</option>
-                                    <option value="Donec pellentesque sem.">Donec pellentesque sem.</option>
-                                </select>
-                                <div class='btn' onclick='modalform5()'>
-                                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
-                                    Adicionar Requisitos
-                                </div>
-                            </div>
-                            <div class="form_group">
-                                <label for="">País</label>
-                                <select name="" id="">
-                                    <option value="" selected disabled>Seleccionar</option>
-                                    <option value="">Option 1</option>
-                                    <option value="">Option 2</option>
-                                </select>
-                            </div>
-                            <div class="form_group justify-content-end mt-4 border-none">
-                                <div class="d-flex">
-                                    <a class="button_form_save" onclick="modalform3()">
-                                        <i class="fa fa-check-circle" aria-hidden="true"></i>
-                                        Enviar
-                                    </a>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+
 <div class="modal_form modal_form2 vac" id="PopupLegal">
     <div class='content_modal'>
         <div class="cuerpo_modal_form">
@@ -357,6 +270,16 @@
 </script>
 
 <script>
+
+function deleteFunction(item) {
+        console.log(item);
+        item.closest('.vacante-function-item').remove()
+    }
+
+    function deleteRequisito(item) {
+        item.closest('.vacante-requisitos-item').remove()
+    }
+
 $('#users').on('select2:select', function (e){
     userFunc();
 });
@@ -371,28 +294,48 @@ $('#id_cargo').on('select2:select', function (e) {
     function cargo_descripcion(callback){
         $('li').remove();//limpia los ul li 
         var selectBox = document.getElementById("id_cargo");
-        console.log(id_selectedValue)
         var id_selectedValue = selectBox.options[selectBox.selectedIndex].value;
 
-        console.log(id_selectedValue)
+        var inputName = $(this).attr('name'); //solo se puede usar una name 
+        
         $.ajax({
 			            type: "get",
 			            url: "/vacantes/cargos/"+id_selectedValue,
 			            success: function( respuesta ){
 			            	//Si existe seteamos los datos
-                           
-                            $("#cargo_fx").append("<li value=" + respuesta.id + ">" + respuesta.nombre + "</li>");
+                        
+                            $("#cargo_fx").append(
+                                $('<input>', {
+                                    type: 'text',
+                                    val: respuesta.nombre,
+                                    name: 'cargo'
+                                })
+                            );
+                            
+                            var des = '<textarea name="descripcion" id="descripcion">'+respuesta.descripcion+'</textarea>'
+                            $("#descripcion_cargo_fx").append(des);
 
-                            $("#descripcion_cargo_fx").append("<li value=" + respuesta.id + ">" + respuesta.descripcion + "</li>");
+                            /* $("#descripcion_cargo_fx").append(
+                                $('<input>', {
+                                    type: 'text',
+                                    val: respuesta.descripcion,
+                                    name2: 'descripcion'
+                                })
+                            ); */
 
-
+                               
 	                	}
 	            });
 
     }
 
     function userFunc(callback){
-        $('input').remove();//limpia los ul li 
+        /* $('input').remove(); *///limpia los ul li 
+        /* $('li').remove(); */
+       /*  $('list_email') */
+       /*  var el = document.getElementById('list_email');
+        el.remove(); */
+
         var selectBox = document.getElementById("users");
         var id_selectedValue = selectBox.options[selectBox.selectedIndex].value;
         
@@ -403,17 +346,12 @@ $('#id_cargo').on('select2:select', function (e) {
 			            	//Si existe seteamos los datos
                             console.log(respuesta)
                             
-                            $("#list_email").append("<input value="+ respuesta.email +">");
-                
-                            
-                   
-                            
-                
-							
-							
+                            /* $("#list_email").append("<input text value=" + respuesta.email + " name="+'email'+">"); */
 
+                            var correo = '<input type="email" name="email" id="email" value="'+respuesta.email+'" class="form-control" readonly/>'
 
-
+                            $("#list_email").append(correo);
+                          
 
 	                	}
 	                });
@@ -432,9 +370,27 @@ $('#id_cargo').on('select2:select', function (e) {
 			            url: "/vacantes/"+id_selectedValue,
 			            success: function( respuesta ){
 			            	//Si existe seteamos los datos
+                            var inputName = $(this).attr('name');
                             $.each(respuesta.funciones, function (key, value) {
-                            $("#list_fx").append("<li value=" + value.id + ">" + value.nombre + "</li>");
-                
+                            /* $("#list_fx").append("<input text value=" + value.nombre  + " name="+'funciones[]'+">"); */
+                            /* $('#list_fx').append('<input type="text" value='+ value.nombre+ '>'); */
+
+                            /* $("#list_fx").append(
+                                $('<input>', {
+                                    type: 'text',
+                                    val: value.nombre,
+                                    name: 'funciones[]'
+                                })
+                            ); */
+
+                            var des = '<input class="vacante-function-item" text name="funciones[]" value="'+value.nombre+'" id="funciones"> &nbsp<span onclick="deleteFunction(this)" class="fa fa-trash delete-function-button"></span> </input>'
+                            $("#list_fx").append(des);
+
+                            /* `<li class="vacante-function-item">
+                                            <p contenteditable="true">Integer viverra dolor non.</p>
+                                            <span onclick="deleteFunction(this)" class="fa fa-trash delete-function-button"></span>
+                                        </li>` */
+                            /* $("#list_email").append("<input text value=" + respuesta.email + " name="+'email'+">"); */
                             
                         });
                             
@@ -460,10 +416,21 @@ $('#id_cargo').on('select2:select', function (e) {
 			            url: "/vacantes/"+id_selectedValue,
 			            success: function( respuesta ){
 			            	//Si existe seteamos los datos
-
+                            var inputName = $(this).attr('name');
                             $.each(respuesta.requisitos, function (key, value) {
-                            $("#list_requisitos").append("<li value=" + value.id + ">" + value.nombre + "</li>");
                             
+                           /* $("#list_requisitos").append(
+                                $('<input>', {
+                                    type: 'text',
+                                    val: value.nombre,
+                                    name: 'requisitos[]'
+                                })
+                            ); */
+                            
+                            /* var req = '<input class="requisitos-function-item" text name="requisitos[]" id="requisitos">'+value.nombre+' &nbsp<span onclick="deleteFunction(this)" class="fa fa-trash delete-function-button"></span> </input>'  postaa */
+                            var req = '<input class="vacante-function-item" text name="requisitos[]" value="'+value.nombre+'" id="requisitos" <span onclick="deleteFunction(this)" class="fa fa-trash delete-function-button"></span> </input>'
+                            $("#list_requisitos").append(req);
+
                             });
 
 	                	}
