@@ -383,8 +383,10 @@ $('#id_cargo').on('select2:select', function (e) {
                                 })
                             ); */
 
-                            var des = '<input class="vacante-function-item" text name="funciones[]" value="'+value.nombre+'" id="funciones"> &nbsp<span onclick="deleteFunction(this)" class="fa fa-trash delete-function-button"></span> </input>'
-                            $("#list_fx").append(des);
+                            /* var des = '<input class="vacante-function-item" style="color:#ffffff" text name="funciones[]" value="'+value.nombre+'" id="funciones"> &nbsp<span onclick="deleteFunction(this)" class="fa fa-trash delete-function-button"></span> </input>'
+                            $("#list_fx").append(des);   posta2 */
+                            var des = '<input class="vacante-function-item" style="color:#ffffff" text name="funciones[]" value="'+value.nombre+'" id="funciones"> </input>'
+                            $("#list_fx").append(des);   
 
                             /* `<li class="vacante-function-item">
                                             <p contenteditable="true">Integer viverra dolor non.</p>
@@ -429,7 +431,9 @@ $('#id_cargo').on('select2:select', function (e) {
                             
                             /* var req = '<input class="requisitos-function-item" text name="requisitos[]" id="requisitos">'+value.nombre+' &nbsp<span onclick="deleteFunction(this)" class="fa fa-trash delete-function-button"></span> </input>'  postaa */
 
-                            var req = '<input class="vacante-function-item" text name="requisitos[]" value="'+value.nombre+'" id="requisitos"> &nbsp<span onclick="deleteFunction(this)" class="fa fa-trash delete-function-button"></span> </input>'
+                            /*var req = '<input class="vacante-function-item" style="color:#ffffff" text name="requisitos[]" value="'+value.nombre+'" id="requisitos"> &nbsp<span onclick="deleteFunction(this)" class="fa fa-trash delete-function-button"></span> </input>'  posta2
+                            $("#list_requisitos").append(req);*/
+                            var req = '<input class="vacante-function-item" style="color:#ffffff" text name="requisitos[]" value="'+value.nombre+'" id="requisitos"> </input>'  
                             $("#list_requisitos").append(req);
 
                             /* var req = '<input class="vacante-function-item" text name="requisitos[]" value="'+value.nombre+'" id="requisitos" <span onclick="deleteFunction(this)" class="fa fa-trash delete-function-button"></span> </input>'

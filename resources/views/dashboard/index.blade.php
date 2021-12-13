@@ -27,7 +27,7 @@
                 </a>
             </div>
             <div class="col-md-4 col-12">
-                <div class="item it3">
+                <div class="item it3" href="{{ route('users') }}">
                     <div class="">
                         <img src="{{ asset('assets/images/icon/item_h_3.png') }}" alt="">
                     </div>

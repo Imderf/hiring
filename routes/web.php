@@ -80,6 +80,6 @@ Route::get('/vacantes/user/{id}', 'VacantesController@buscar_usuario');
 Route::get('/vacantes/cargos/{id}', 'VacantesController@buscar_cargo_descripcion');
 
 
-
+Route::get('/usuarioss', 'UserController@index')->name('users');
 
 Route::get('/home', 'HomeController@index')->name('home');

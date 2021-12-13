@@ -23,7 +23,7 @@
         <!-- End User profile text-->
         <!-- Sidebar navigation-->
         <div class='menu_nav'>
-            <a class='dash item_menu col-12' href="{{ route('vacante.index') }}">
+            <a class='dash item_menu col-12' href="{{ route('vaca')/* route('vacante.index') */}}">
                 <img class='normal_img' src="{{ asset('assets/images/menu-nav/vac.png') }}" alt="">
                 <img class='hover_img' src="{{ asset('assets/images/menu-nav/vac_hover.png') }}" alt="">
                 <div class="w-100">
@@ -50,7 +50,7 @@
                 
                 <img class='select_nav' src="{{ asset('assets/images/menu-nav/select_nav.png') }}" alt="">
             </a>
-            <a class='prov item_menu col-12' href="{{ route('usuarios.index') }}">
+            <a class='prov item_menu col-12' href="{{ route('users') }}">
                 <img class='normal_img' src="{{ asset('assets/images/menu-nav/users.png') }}" alt="">
                 <img class='hover_img' src="{{ asset('assets/images/menu-nav/users_hover.png') }}" alt="">
                 <div class="w-100">

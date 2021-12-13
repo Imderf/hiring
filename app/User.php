@@ -1,6 +1,7 @@
 <?php
 
 namespace App;
+use App\Vacantes;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -15,8 +16,16 @@ class User extends Authenticatable
      *
      * @var array
      */
+    protected $table = 'users';
+    public $primaryKey = 'id';
+
     protected $fillable = [
-        'name', 'email', 'password', 'google_id'
+        'name', 
+        'email', 
+        'password', 
+        'roles_usuario_id',
+        'estado',
+        'google_id'
     ];
 
     /**
@@ -36,4 +45,8 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function vacantes(){
+        return $this->hasMany('App\Vacantes','users_id','id');
+    }
 }

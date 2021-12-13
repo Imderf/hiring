@@ -3,18 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\User;
-use Illuminate\Http\Request;
+use App\Vacantes;
 
 class UserController extends Controller
 {
     //
     public function index()
     {
-        $users = User::latest()->get();
-        
-        return view('users.index', [
+        $users = User::latest()->with('vacantes')->get();
+        /* dd($users); */
+        /* dd($users); */
+        return view('usuarios.usuariosIndex', [
             'users' => $users
         ]);
+        /* return view('users.index', [
+            'users' => $users
+        ]); */
     } 
 
     public function store(Request $request)
