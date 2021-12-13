@@ -7,7 +7,7 @@
         </div>
         <div class='content_dash_hiring'>
             <div class="col-md-4 col-12">
-                <a class="item it1" href="{{ route('vacante.index') }}">
+                <a class="item it1" href="{{ route('vaca') }}">
                     <div class="">
                         <img src="{{ asset('assets/images/icon/item_h_1.png') }}" alt="">
                     </div>

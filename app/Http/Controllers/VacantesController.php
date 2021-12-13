@@ -7,6 +7,8 @@ use App\Paises;
 use App\Vacantes;
 use App\DescripcionCargo;
 use App\DescripcionConfirmado;
+use App\CargosFuncionesConfirmados;
+use App\CargosRequisitosConfirmados;
 
 use Carbon\Carbon;
 use DB;
@@ -34,7 +36,10 @@ class VacantesController extends Controller
     }
 
     public function store(Request $request){
-
+        $fecha = Carbon::now();
+        $fec = $fecha->toDateString();
+        
+        /* dd($request->all()); */
         $req_confirmados = Cargos::with('funciones')
                                 ->with('requisitos')
                                 ->findOrfail($request->input('id_cargo'));
@@ -44,24 +49,41 @@ class VacantesController extends Controller
 
         
         foreach($req_confirmados->funciones as $f){
-            $a = $f->nombre;
+            $a[] = $f->id;
+            $a[] = $f->nombre;
         }
 
         foreach($req_confirmados->requisitos as $r){
-            $b = $r->nombre;
+            $b[] = $r->id;
+            $b[] = $r->nombre;
         }
 
-        /* dd($a,$b); */
+
+       
+
+        foreach($request->input('funciones') as $fx){
+            $func[] = $fx;
+        }
+
+        foreach($request->input('requisitos') as $rx){
+            $requi[] = $rx;
+        }
+
+        /* dd($func , $a); */
+        
 
         
+        
+
+        
+        
         $cargos_vacantes_mod = Cargos::with('descripcion_cargo')->findOrfail($request->input('id_cargo'));
-        $fecha = Carbon::now();
-        $fec = $fecha->toDateString();
+        
         
         /* dd($cargos_vacantes_mod->nombre, $cargos_vacantes_mod->descripcion ,$request->input('cargo'),$request->input('descripcion')); */
         if(strcmp ($cargos_vacantes_mod->nombre , $request->input('cargo')) == 0){
             if(strcmp ($cargos_vacantes_mod->descripcion ,$request->input('descripcion')) == 0){
-
+                /* dd('hola entro'); */
                 
                 $vacantes = new Vacantes();
                 $vacantes->fill([
@@ -70,11 +92,12 @@ class VacantesController extends Controller
                     'users_id'=> $request->input('users'),
                     'cargo_id'=> $request->input('id_cargo'),
                     'paises_id'=> $request->input('pais'),
-                    'nombre_cargo_modificado'=> NULL,
-                    'descripcion_cargo_modificado'=> NULL,
+                    /* 'nombre_cargo_modificado'=> NULL,
+                    'descripcion_cargo_modificado'=> NULL, */
                     
                 ]);
                 $vacantes->save();
+                
 
             }else{
                 $vacantes = new Vacantes();
@@ -84,10 +107,11 @@ class VacantesController extends Controller
                     'users_id'=> $request->input('users'),
                     'cargo_id'=> $request->input('id_cargo'),
                     'paises_id'=> $request->input('pais'),
-                    'nombre_cargo_modificado'=> NULL,
+                    /* 'nombre_cargo_modificado'=> NULL, */
                     'descripcion_cargo_modificado'=> $request->input('descripcion'),
                 ]);
                 $vacantes->save();
+
             }
 
 
@@ -106,6 +130,7 @@ class VacantesController extends Controller
                         
                     ]);
                     $vacantes->save();
+                   
                 }
                 else{
                     $vacantes = new Vacantes();
@@ -122,10 +147,69 @@ class VacantesController extends Controller
                     $vacantes->save();
 
                     }
-                    
+        }
+
+
+        //*ADD funciones*/
+        if(strcmp ($func[0],$a[1]) == 0){
             
+            //NO SE HACE NADA DE INSERCION
+        }
+        else{
+            $funciones_agregadas = $func[0];
+            $id_funciones = $a[0];
+            /* dd($funciones_agregadas,$id_funciones); */
+    
+            $nombre_funciones_add = new CargosFuncionesConfirmados();
+            
+            $nombre_funciones_add->fill([
+
+                'nombre'=> $funciones_agregadas,
+                'editado'=> '1',
+                'creado'=> $fec,
+                'cargos_id'=> $request->input('id_cargo'),
+                'funciones_id'=> $id_funciones,
+               
+                
+            ]);
+            $nombre_funciones_add->save();
+    
+        }
+
+
+
+        //*ADD requisitos*/
+        if(strcmp ($requi[0],$b[1]) == 0){
+            //NO SE HACE NADA DE INSERCION
             
         }
+        else{
+            $requisitos_agregadas = $requi[0];
+            $id_requisitos = $b[0];
+            /* dd($funciones_agregadas,$id_funciones); */
+    
+            $nombre_requisitos_add = new CargosRequisitosConfirmados();
+            
+            $nombre_requisitos_add->fill([
+
+                'nombre'=> $requisitos_agregadas,
+                'editado'=> '1',
+                'creado'=> $fec,
+                'cargos_id'=> $request->input('id_cargo'),
+                'requisitos_id'=> $id_requisitos,
+               
+                
+            ]);
+            $nombre_requisitos_add->save();
+    
+        }
+
+
+
+
+
+
+
         return redirect('/dashboard');
        
     }

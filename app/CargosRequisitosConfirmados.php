@@ -8,6 +8,7 @@ class CargosRequisitosConfirmados extends Model
 {
     protected $table = 'cargos_requisitos_confirmados';
     protected $primaryKey = 'id';
+    public $timestamps = false;
     
     protected $fillable = [ 
         

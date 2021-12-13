@@ -428,8 +428,12 @@ $('#id_cargo').on('select2:select', function (e) {
                             ); */
                             
                             /* var req = '<input class="requisitos-function-item" text name="requisitos[]" id="requisitos">'+value.nombre+' &nbsp<span onclick="deleteFunction(this)" class="fa fa-trash delete-function-button"></span> </input>'  postaa */
-                            var req = '<input class="vacante-function-item" text name="requisitos[]" value="'+value.nombre+'" id="requisitos" <span onclick="deleteFunction(this)" class="fa fa-trash delete-function-button"></span> </input>'
+
+                            var req = '<input class="vacante-function-item" text name="requisitos[]" value="'+value.nombre+'" id="requisitos"> &nbsp<span onclick="deleteFunction(this)" class="fa fa-trash delete-function-button"></span> </input>'
                             $("#list_requisitos").append(req);
+
+                            /* var req = '<input class="vacante-function-item" text name="requisitos[]" value="'+value.nombre+'" id="requisitos" <span onclick="deleteFunction(this)" class="fa fa-trash delete-function-button"></span> </input>'
+                            $("#list_requisitos").append(req);  este elimina al tocar el componente*/
 
                             });
 
