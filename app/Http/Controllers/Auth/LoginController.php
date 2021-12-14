@@ -5,8 +5,9 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers; 
+use Laravel\Socialite\Facades\Socialite;
 
-use Socialite;
+/* use Socialite; */
 use Auth;
 use Exception;
 use App\User;
@@ -51,7 +52,7 @@ class LoginController extends Controller
         return View::make('login');
     }
 
-    public function redirectToGoogle()
+    /* public function redirectToGoogle()
     {
         return Socialite::driver('google')->redirect();
     }
@@ -77,11 +78,38 @@ class LoginController extends Controller
         } catch (Exception $e) {
             return redirect('/login');
         }
-    } 
+    }  */
     
     public function logout()
     {
         Auth::logout();
         return redirect('/login');
+    }
+
+    public function redirectToProvider($driver)
+    {
+        return Socialite::driver($driver)->redirect();
+    }
+
+    /**
+     * Obtain the user information from GitHub.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function handleProviderCallback($driver)
+    {
+        $userSocialite = Socialite::driver($driver)->user();
+       /*  dd($user); */
+
+       $user =  User::create([
+                'name' => $userSocialite->getName(),
+                'email' => $userSocialite->getEmail(),
+                'roles_usuario_id' => 1 ,
+                'estado' => 'I',
+                'google_id' => $userSocialite->getId(),
+
+                ]);
+
+       
     }
 }

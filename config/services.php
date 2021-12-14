@@ -31,9 +31,9 @@ return [
     ], 
 
     'google' => [
-        'client_id' => '780181298676-itb0cn7mr828bqe1ldf7fn84ecd8a83b.apps.googleusercontent.com',
-        'client_secret' => 'aFSVXNYBl2ZaF8tfyus5itQo',
-        'redirect' => 'http://clap.milenium.group/auth/google/callback',
+        'client_id' => env('GOOGLE_CLIENT_ID'),
+        'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+        'redirect' => env('GOOGLE_REDIRECT_URL'),
     ], 
 
 ];

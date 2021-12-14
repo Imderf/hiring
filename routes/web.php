@@ -22,9 +22,9 @@ Route::get('/', function () {
     }
 });
 
-Route::get('auth/google', 'Auth\LoginController@redirectToGoogle');
+/* Route::get('auth/google', 'Auth\LoginController@redirectToGoogle');
 Route::get('auth/google/callback', 'Auth\LoginController@handleGoogleCallback');
-Route::get('auth/logout', 'Auth\LoginController@logout');
+Route::get('auth/logout', 'Auth\LoginController@logout'); */
 
 Route::middleware(['auth'])->group(function () {
 
@@ -83,3 +83,7 @@ Route::get('/vacantes/cargos/{id}', 'VacantesController@buscar_cargo_descripcion
 Route::get('/usuarioss', 'UserController@index')->name('users');
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+//google authenticate
+Route::get('login/{driver}', 'Auth\LoginController@redirectToProvider');
+Route::get('login/{dirver}/callback', 'Auth\LoginController@handleProviderCallback');
