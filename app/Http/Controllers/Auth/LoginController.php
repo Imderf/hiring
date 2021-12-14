@@ -86,9 +86,9 @@ class LoginController extends Controller
         return redirect('/login');
     }
 
-    public function redirectToProvider($driver)
+    public function redirectToProvider()
     {
-        return Socialite::driver($driver)->redirect();
+        return Socialite::driver('google')->redirect();
     }
 
     /**
@@ -96,9 +96,9 @@ class LoginController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function handleProviderCallback($driver)
+    public function handleProviderCallback()
     {
-        $userSocialite = Socialite::driver($driver)->user();
+        $userSocialite = Socialite::driver('google')->user();
        /*  dd($user); */
 
        $user =  User::create([

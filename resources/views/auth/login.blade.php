@@ -6,7 +6,7 @@
 <section class='login_goo'>
     <div class='content_background_loginx'>
     <p>Mileniumgroup todos los derechos reservados</p>
-        <a href="{{ url('login/google') /* route('auth.confirm_register') */ }}">
+        <a href="{{ url('/login_Google') /* route('auth.confirm_register') */ }}">
             <img src="{{ asset('assets/images/icon/text.png') }}" alt="">
         </a>       
     </div>
