@@ -85,5 +85,6 @@ Route::get('/usuarioss', 'UserController@index')->name('users');
 Route::get('/home', 'HomeController@index')->name('home');
 
 //google authenticate
-Route::get('/login_Google', 'Auth\LoginController@redirectToProvider');
+Route::get('/login_google', 'Auth\LoginController@redirectToProvider');
 Route::get('/confirm_register', 'Auth\LoginController@handleProviderCallback');
+Route::get('auth/logout', 'Auth\LoginController@logout');

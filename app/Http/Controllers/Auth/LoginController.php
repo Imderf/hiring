@@ -11,6 +11,7 @@ use Laravel\Socialite\Facades\Socialite;
 use Auth;
 use Exception;
 use App\User;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -96,19 +97,39 @@ class LoginController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function handleProviderCallback()
+    public function handleProviderCallback(Request $request)
     {
-        $userSocialite = Socialite::driver('google')->user();
-       /*  dd($user); */
 
-       $user =  User::create([
+        if($request->get('error')){
+            return redirect('/login');
+        }
+
+        $userSocialite = Socialite::driver('google')->user();
+
+       /* $user = User::where('email', $userSocialite->getEmail())->first(); */
+       $userSocialite = Socialite::driver('google')->user();
+       $finduser = User::where('google_id', $userSocialite->id)->first();
+
+       if($finduser){
+            Auth::login($finduser);  
+            return redirect('/dashboard');
+        }
+        else{
+            $newuser =  User::create([
                 'name' => $userSocialite->getName(),
                 'email' => $userSocialite->getEmail(),
                 'roles_usuario_id' => 1 ,
-                'estado' => 'I',
+                'estado' => 'A',
                 'google_id' => $userSocialite->getId(),
-
+    
                 ]);
+        }
+        
+
+       auth()->login($newuser);
+       return redirect('/dashboard');
+
+       
 
        
     }
