@@ -81,6 +81,8 @@ Route::get('/vacantes/cargos/{id}', 'VacantesController@buscar_cargo_descripcion
 
 
 Route::get('/usuarioss', 'UserController@index')->name('users');
+Route::get('/usuarioss/approved/{id}', 'UserController@status_approved')->name('user_approved');
+Route::get('/usuarioss/invalid/{id}', 'UserController@status_invalid')->name('user_invalid');
 
 Route::get('/home', 'HomeController@index')->name('home');
 

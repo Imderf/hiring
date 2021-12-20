@@ -42,16 +42,28 @@
                                     <td>
                                         @if($u->estado == 'A')
                                         Aprobado
+                                        @elseif($u->estado == 'I')
+                                        Invalidado
                                         @endif
                                     </td>
                                     <td>
                                         <span>{{$u->email}}</span>
                                     </td>
+                                    @if($u->estado == 'A')
+                                        <td>
+                                            <a class="button_form_save" href="{{ URL::action('UserController@status_invalid', $u->id) }}">
+                                                Denegar
+                                            </a>
+                                                                        
+                                        </td>
+                                    @elseif($u->estado == 'I')
                                     <td>
-                                        <a class="button_form_save" href="{{ route('solicitud.editar') }}">
-                                            Aprobar / denegar
-                                        </a>                            
+                                        <a class="button_form_save" href="{{ URL::action('UserController@status_approved', $u->id) }}">
+                                            Aprobar
+                                        </a>
+                                                                    
                                     </td>
+                                    @endif
                                 </tr>
                                 @endforeach
                             </tbody>

@@ -127,7 +127,7 @@ class LoginController extends Controller
         
 
        auth()->login($newuser);
-       return redirect('/dashboard');
+       return redirect('/confirm_register');
 
        
 

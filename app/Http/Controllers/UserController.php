@@ -44,5 +44,45 @@ class UserController extends Controller
 
         return back();        
     }
+
+
+    public function status_approved($id){
+
+		$users_aprobados = User::findOrfail($id);
+
+		$users_aprobados->fill([
+
+			'estado' => 'A',
+			
+		]);
+		$users_aprobados->update();
+
+        
+
+        $users = User::latest()->with('vacantes')->get();
+        return view('usuarios.usuariosIndex', [
+            'users' => $users
+        ]);
+    }
+
+
+    public function status_invalid($id){
+
+		$users_aprobados = User::findOrfail($id);
+
+		$users_aprobados->fill([
+
+			'estado' => 'I',
+			
+		]);
+		$users_aprobados->update();
+
+        
+
+        $users = User::latest()->with('vacantes')->get();
+        return view('usuarios.usuariosIndex', [
+            'users' => $users
+        ]);
+    }
 }
 
