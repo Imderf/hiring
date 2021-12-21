@@ -111,7 +111,7 @@
                                 <i class="fa fa-check-circle" aria-hidden="true"></i>
                                 Enviar
                             </a> --}}
-                            <button class="button_form_save" {{-- onclick="modalform3()" --}}>
+                            <button class="button_form_save" onclick="modalform3()">
                                 <i class="fa fa-check-circle" aria-hidden="true"></i>
                                 Enviar
                             </button>
@@ -225,12 +225,16 @@
 </div>
 <script>
     function modalform3() {
-        $('.modal_form3').show();    
+        $('.modal_form2').show(); 
+        $("#modal_form2").delay("slow").fadeIn();
+       /*  $( ".modal_form2" ).slideUp( 300 ).delay( 800 ).fadeIn( 400 ); */
+        
+           
     }
-    function out_modal3() {
-        $('.modal_form3').hide();    
+    function out_modal() {
+        $('.modal_form2').show();    
     }
-    function modalform4() {
+    /* function modalform4() {
         $('.modal_form4').show();    
     }
     function out_modal4() {
@@ -241,7 +245,7 @@
     }
     function out_modal5() {
         $('.modal_form5').hide();    
-    }
+    } */
 </script>
 
 <script>

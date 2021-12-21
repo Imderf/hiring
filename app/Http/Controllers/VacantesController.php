@@ -208,7 +208,7 @@ class VacantesController extends Controller
 
 
 
-
+        /* return redirect('/confirm_vacante'); */
 
         return redirect('/dashboard');
        
