@@ -41,7 +41,7 @@
                 
                 <img class='select_nav' src="{{ asset('assets/images/menu-nav/select_nav.png') }}" alt="">
             </a>
-            <a class='prov item_menu col-12' href="{{ route('registros.index') }}">
+            <a class='prov item_menu col-12' href="{{ route('postulantes') }}">
                 <img class='normal_img' src="{{ asset('assets/images/menu-nav/reg.png') }}" alt="">
                 <img class='hover_img' src="{{ asset('assets/images/menu-nav/reg_hover.png') }}" alt="">
                 <div class="w-100">

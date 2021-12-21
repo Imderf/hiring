@@ -54,9 +54,9 @@ Route::get('/solicitud_editar', function () {
 Route::get('/solicitud_ver', function () {
     return view('solicitud.ver');
 })->name('solicitud.ver');
-Route::get('/registros', function () {
+/* Route::get('/registros', function () {
     return view('registros.index');
-})->name('registros.index');
+})->name('registros.index'); */
 Route::get('/usuarios', function () {
     return view('usuarios.index');
 })->name('usuarios.index');
@@ -66,7 +66,7 @@ Route::get('/usuarios', function () {
 Route::post('proyectos', 'ProyectoController@store')->name('proyectos.store');
 
 //POSTULANTES FORMULARIO
-Route::get('/postulantes', 'PostulantesController@index')->name('postulantes');
+Route::get('/registro_postulantes', 'PostulantesController@index')->name('postulantes');
 /* Route::get('/new_postulantes', 'PostulantesController@create'); */
 Route::post('/create_postulantes', 'PostulantesController@store');
 

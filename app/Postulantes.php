@@ -28,4 +28,12 @@ class Postulantes extends Model
         'vacante_id'
 
     ];
+
+    public function cargos(){
+        return $this->belongsTo('App\Cargos','cargo_id', 'id');
+    }
+
+    public function pais(){
+        return $this->belongsTo('App\Paises','paises_id', 'id');
+    }
 }
