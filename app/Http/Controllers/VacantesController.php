@@ -9,6 +9,7 @@ use App\DescripcionCargo;
 use App\DescripcionConfirmado;
 use App\CargosFuncionesConfirmados;
 use App\CargosRequisitosConfirmados;
+use App\Http\Requests\VacantesRequest;
 
 use Carbon\Carbon;
 use DB;
@@ -35,18 +36,19 @@ class VacantesController extends Controller
 
     }
 
-    public function store(Request $request){
+    public function store(VacantesRequest $request){
         $fecha = Carbon::now();
         $fec = $fecha->toDateString();
         
-        /* dd($request->all()); */
+        dd($request->all());
+
         $req_confirmados = Cargos::with('funciones')
                                 ->with('requisitos')
                                 ->findOrfail($request->input('id_cargo'));
-                            /* with('cargos_req_confirmados')
-                                 ->with('cargos_fx_confirmados') */
                                  
 
+        //me fijo si vienen vacias los imputs de funciones o requisitos y lanzo error
+        
         
         foreach($req_confirmados->funciones as $f){
             $a[] = $f->id;
@@ -59,7 +61,7 @@ class VacantesController extends Controller
         }
 
 
-       
+        
 
         foreach($request->input('funciones') as $fx){
             $func[] = $fx;

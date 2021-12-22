@@ -90,6 +90,7 @@ class LoginController extends Controller
     public function redirectToProvider()
     {
         return Socialite::driver('google')->redirect();
+        
     }
 
     /**
@@ -104,7 +105,7 @@ class LoginController extends Controller
             return redirect('/login');
         }
 
-        $userSocialite = Socialite::driver('google')->user();
+        /* $userSocialite = Socialite::driver('google')->user(); */
 
        /* $user = User::where('email', $userSocialite->getEmail())->first(); */
        $userSocialite = Socialite::driver('google')->user();

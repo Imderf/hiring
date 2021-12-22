@@ -79,7 +79,7 @@
                             </div>
                             <div class="col-md-9 content_list">
                                 <div class="p-3">
-                                    <ul class="vacante-requisitos-list">
+                                    <ul class="vacante-requisitos-list" id="vacante-requisitos-list">
                                         {{-- <li class="vacante-function-item"> --}}
                                             <input type="hidden" onclick="" />
                                             <p id="list_requisitos" name="list_requisitos" class="listasprinc"></p>
@@ -92,7 +92,7 @@
                     </div>
                     <div class="form_group">
                         <label for="">País</label>
-                        <select id="pais" name="pais" required>
+                        <select id="pais" name="pais">
                             <option value="" selected disabled>Seleccionar</option>
                             @foreach ($paises as $p)
                                 <option value="{{ $p->id }}">
@@ -226,7 +226,7 @@
 <script>
     function modalform3() {
         $('.modal_form2').show(); 
-        $("#modal_form2").delay("slow").fadeIn();
+        $("#PopupLegal").delay("slow").delay( 800 ).fadeIn( 400 );
        /*  $( ".modal_form2" ).slideUp( 300 ).delay( 800 ).fadeIn( 400 ); */
         
            
@@ -251,14 +251,14 @@
 <script>
     const addFunction = () => {
         var newFunction = `<li class="vacante-function-item">
-                                            <p contenteditable="true">Integer viverra dolor non.</p>
+                                            <p contenteditable="true" id="funciones" name="funciones[]">Funciones</p>
                                             <span onclick="deleteFunction(this)" class="fa fa-trash delete-function-button"></span>
                                         </li>`;
         $('#vacante-funciones-list').append(newFunction);
     }
     const addRequisito = () => {
         var newRequisito = `<li class="vacante-requisitos-item">
-                                            <p contenteditable="true">Integer viverra dolor non.</p>
+                                            <p contenteditable="true" id="requisitos" name="requisitos[]">Requisitos</p>
                                             <span onclick="deleteRequisito(this)" class="fa fa-trash delete-requisitos-button"></span>
                                         </li>`;
         $('#vacante-requisitos-list').append(newRequisito);
@@ -295,8 +295,25 @@ $('#id_cargo').on('select2:select', function (e) {
 });
 
 
+$('#users').on('change', () => {
+   $('#email').remove();
+  
+});
+
+//al cambiar el select de posicion a seleccionar hace una limpieza de campos
+$('#id_cargo').on('change', () => {
+   $('#cargo_fx').text('');
+   $('#descripcion_cargo_fx').text('');
+
+   $('#funciones').remove();
+   $('#requisitos').remove();
+  
+});
+
+
     function cargo_descripcion(callback){
-        $('li').remove();//limpia los ul li 
+        
+    
         var selectBox = document.getElementById("id_cargo");
         var id_selectedValue = selectBox.options[selectBox.selectedIndex].value;
 
@@ -334,12 +351,7 @@ $('#id_cargo').on('select2:select', function (e) {
     }
 
     function userFunc(callback){
-        /* $('input').remove(); *///limpia los ul li 
-        /* $('li').remove(); */
-       /*  $('list_email') */
-       /*  var el = document.getElementById('list_email');
-        el.remove(); */
-
+    
         var selectBox = document.getElementById("users");
         var id_selectedValue = selectBox.options[selectBox.selectedIndex].value;
         
@@ -352,7 +364,7 @@ $('#id_cargo').on('select2:select', function (e) {
                             
                             /* $("#list_email").append("<input text value=" + respuesta.email + " name="+'email'+">"); */
 
-                            var correo = '<input type="email" name="email" id="email" value="'+respuesta.email+'" class="form-control" readonly/>'
+                            var correo = '<input type="email" name="email" size="50" id="email" value="'+respuesta.email+'" class="form-control" readonly/>'
 
                             $("#list_email").append(correo);
                           
@@ -365,6 +377,7 @@ $('#id_cargo').on('select2:select', function (e) {
 
     function changeFunc(callback){
         $('ul li').remove();//limpia los ul li 
+        $('#funciones').text('');
         var selectBox = document.getElementById("id_cargo");
         var id_selectedValue = selectBox.options[selectBox.selectedIndex].value;
 
