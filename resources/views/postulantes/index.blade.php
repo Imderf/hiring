@@ -34,7 +34,7 @@
                                         <h4>{{ $p->nombre_completos }}</h4>
                                         <p>{{ $p->cargos->nombre }}</p>
                                         <p>{{ $p->cargos->descripcion }}</p>
-                                        <p>Registrado en {{ $p->cargos->creado }}</p>
+                                        <p>Registrado en {{ $p->created_at->format('d/m/Y') }}</p>
                                         
                                     </td>
                                     <td>
@@ -51,7 +51,7 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <a class="button_form_save" href="{{ route('solicitud.editar') }}">
+                                        <a class="button_form_save" href="{{ URL::action('PostulantesController@show', $p->id) }}">
                                             Ver
                                         </a>                            
                                     </td>

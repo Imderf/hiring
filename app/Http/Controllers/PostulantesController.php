@@ -27,4 +27,12 @@ class PostulantesController extends Controller
 
         dd($request->all());
     }
+
+    public function show($id){
+
+      $postulantes = Postulantes::with('cargos')->with('pais')->findOrfail($id); 
+      /* dd($postulantes); */
+
+      return view('postulantes.show', ["postulantes" => $postulantes]);
+    }
 }

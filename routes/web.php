@@ -69,6 +69,7 @@ Route::post('proyectos', 'ProyectoController@store')->name('proyectos.store');
 Route::get('/registro_postulantes', 'PostulantesController@index')->name('postulantes');
 /* Route::get('/new_postulantes', 'PostulantesController@create'); */
 Route::post('/create_postulantes', 'PostulantesController@store');
+Route::get('/show_postulantes/{id}','PostulantesController@show')->name('show.postulantes');
 
 //VACANTES
 Route::get('/vacantes', 'VacantesController@index')->name('vaca');
