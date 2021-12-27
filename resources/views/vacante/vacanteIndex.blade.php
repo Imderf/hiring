@@ -64,7 +64,37 @@
                                         {{-- </li> --}}
                                           
                                     </ul>
-                                    <button class="add-function-button" onclick="addFunction()" type="button">Agregar función<span class="fa fa-plus"></span></button>
+                                    {{-- <button class="add-function-button" onclick="addFunction()" type="button">Agregar función<span class="fa fa-plus"></span></button> --}}
+                                    <div class="col-md-10">
+                                        <BR><BR><BR></BR></BR></BR>
+                                        <table class="table">
+                                            <tr>
+                                                 <th><label for="">Funciones Nuevas</label>
+                                                    <input type="text" name="horario_nuevo" id="horario_nuevo" placeholder="" class="form-control" />
+                                                    <div  id="errorhora" style="display:none;color:#CC0000;font-size: 13px">Valor obligatorio.</div>
+                                                 </th>
+                                                 <th>
+                                                     <label for="" style="color:white"></label>
+                                                    <button type="button" name="add" id="add" class="btn-success2"><span class="fa fa-plus" style="color:white"></span></button>
+                                                </th>
+                                            </tr>
+                                        </table>
+                                        {{-- <div  id="errorFormatoHora" style="display:none;color:#CC0000">La Hora ingresada no es correcta</div> --}}
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-1"></div>
+                                            <div class="col-md-10">
+                                                <table class="table" id="dynamicTable">
+                                                    <tr bgcolor="#fb8668">
+                                                        <th></th>
+                                                        <th></th>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            {{-- <div class="col-md-4"></div> --}}
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -82,10 +112,39 @@
                                     <ul class="vacante-requisitos-list" id="vacante-requisitos-list">
                                         {{-- <li class="vacante-function-item"> --}}
                                             <input type="hidden" onclick="" />
-                                            <p id="list_requisitos" name="list_requisitos" class="listasprinc"></p>
+                                            <p id="list_requisitos" name="list_requisitos" class="listasprinc2"></p>
                                        {{--  </li> --}}
                                     </ul>
-                                    <button class="add-requisitos-button" onclick="addRequisito()" type="button">Agregar requisito<span class="fa fa-plus"></span></button>
+                                    <div class="col-md-10">
+                                        <BR><BR><BR></BR></BR></BR>
+                                        <table class="table">
+                                            <tr>
+                                                 <th><label for="">Requisitos Nuevos</label>
+                                                    <input type="text" name="horario_nuevo2" id="horario_nuevo2" placeholder="" class="form-control" />
+                                                    {{-- <div  id="errorhora" style="display:none;color:#CC0000;font-size: 13px">Valor obligatorio.</div> --}}
+                                                 </th>
+                                                 <th>
+                                                     <label for="" style="color:white"></label>
+                                                    <button type="button" name="add2" id="add2" class="btn-success2"><span class="fa fa-plus"></span></button>
+                                                </th>
+                                            </tr>
+                                        </table>
+                                        {{-- <div  id="errorFormatoHora" style="display:none;color:#CC0000">La Hora ingresada no es correcta</div> --}}
+                                </div>
+                                {{-- <BR><BR><BR></BR> --}}
+                                <div class="row">
+                                        <div class="col-md-1"></div>
+                                            <div class="col-md-10">
+                                                <table class="table" id="dynamicTable2">
+                                                    <tr bgcolor="#fb8668">
+                                                        <th></th>
+                                                        <th></th>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            {{-- <div class="col-md-4"></div> --}}
+                                    </div>
+                                    {{-- <button class="add-requisitos-button" onclick="addRequisito()" type="button">Agregar requisito<span class="fa fa-plus"></span></button> --}}
                                 </div>
                             </div>
                         </div>
@@ -249,6 +308,49 @@
 </script>
 
 <script>
+//tabla dinamica para funciones nuevas
+    var i = 0;
+    $("#add").click(function(){
+        ++i;
+				var hora_nueva=$('#horario_nuevo').val();
+                console.log(hora_nueva,'entro');
+				
+                $("#dynamicTable").append('<tr><td><input type="text" name="addmorefunction['+i+'][name]" id="hora" value="'+hora_nueva+'" placeholder="Funciones" class="form-control" readonly /></td><td><span class="fa fa-trash remove-tr"></span></td></tr>');
+                $('#horario_nuevo').val('');
+								
+				
+		});
+    $(document).on('click', '.remove-tr', function(){
+         $(this).parents('tr').remove();
+				 if ( $('#control').val()==1) {
+				 	$('#control').val("");
+				}else {
+					$('#control').val($('#control').val()-1);
+				}
+    });
+
+//tabla dinamica para requisitos nuevos
+    var j = 0;
+    $("#add2").click(function(){
+        ++j;
+				var hora_nueva2=$('#horario_nuevo2').val();
+                console.log(hora_nueva2,'entro');
+				
+                $("#dynamicTable2").append('<tr><td><input type="text" name="addmorerequirements['+j+'][name]" id="hora" value="'+hora_nueva2+'" placeholder="Requisitos" class="form-control" readonly /></td><td><span class="fa fa-trash remove-tr"></span></td></tr>');
+                $('#horario_nuevo2').val('');
+								
+				
+		});
+    $(document).on('click', '.remove-tr', function(){
+         $(this).parents('tr').remove();
+				 if ( $('#control').val()==1) {
+				 	$('#control').val("");
+				}else {
+					$('#control').val($('#control').val()-1);
+				}
+    });
+
+
     const addFunction = () => {
         var newFunction = `<li class="vacante-function-item">
                                             <p contenteditable="true" id="funciones" name="funciones[]">Funciones</p>
@@ -467,5 +569,27 @@ $('#id_cargo').on('change', () => {
 
     
 </script>
+<style>
+    .table {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #ffffff !important;
+    }
+    
+    .btn-success2 {
+    background: none;
+    border: 0;
+    color: white;
+    font-size: 1.3rem;
+    }
+
+   /*  button.add-function-button, button.add-function-button span, button.add-requisitos-button, button.add-requisitos-button span {
+    background: none;
+    border: 0;
+    color: white;
+    font-size: 1.3rem; */
+}
+
+</style>
 
 @endsection     

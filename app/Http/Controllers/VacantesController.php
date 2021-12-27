@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 use App\User;
 use App\Cargos;
+use App\Funciones;
+use App\Requisitos;
 use App\Paises;
 use App\Vacantes;
 use App\DescripcionCargo;
@@ -36,42 +38,17 @@ class VacantesController extends Controller
 
     }
 
-    public function store(VacantesRequest $request){
+    public function store(Request $request){
         $fecha = Carbon::now();
         $fec = $fecha->toDateString();
         
-        dd($request->all());
 
         $req_confirmados = Cargos::with('funciones')
                                 ->with('requisitos')
                                 ->findOrfail($request->input('id_cargo'));
                                  
-
-        //me fijo si vienen vacias los imputs de funciones o requisitos y lanzo error
-        
-        
-        foreach($req_confirmados->funciones as $f){
-            $a[] = $f->id;
-            $a[] = $f->nombre;
-        }
-
-        foreach($req_confirmados->requisitos as $r){
-            $b[] = $r->id;
-            $b[] = $r->nombre;
-        }
-
-
-        
-
-        foreach($request->input('funciones') as $fx){
-            $func[] = $fx;
-        }
-
-        foreach($request->input('requisitos') as $rx){
-            $requi[] = $rx;
-        }
-
-        /* dd($func , $a); */
+                                
+        dd($request->all());
         
 
         
@@ -152,6 +129,34 @@ class VacantesController extends Controller
         }
 
 
+
+
+        //me fijo si vienen vacias los imputs de funciones o requisitos 
+        foreach($req_confirmados->funciones as $f){
+            $a[] = $f->id;
+            $a[] = $f->nombre;
+        }
+
+        foreach($req_confirmados->requisitos as $r){
+            $b[] = $r->id;
+            $b[] = $r->nombre;
+        }
+
+
+        foreach($request->input('funciones') as $fx){
+            $func[] = $fx;
+        }
+
+        foreach($request->input('requisitos') as $rx){
+            $requi[] = $rx;
+        }
+
+        
+
+
+
+
+
         //*ADD funciones*/
         if(strcmp ($func[0],$a[1]) == 0){
             
@@ -207,10 +212,87 @@ class VacantesController extends Controller
         }
 
 
+       
+        //addmorefunction para el agregado de las funciones en cargos_funciones_confirmados si no existen en la tabla fx
+       if($request->input('addmorefunction')){ //si existen fx nuevas por agregar que vengan del formulario
+            
+        foreach ($request->addmorefunction as $key => $value) {
+
+
+            /* $funcionesexiste = Cargos::with('funciones')->findOrfail($request->input('id_cargo')); */
+            $funcionexiste = Funciones::where('nombre', $value)->get();
+            $cantidad = count($funcionexiste);
+            if ($cantidad==0) {
+            
+                foreach($funcionexiste as $function){
+                    $f_id[] = $function->id;
+                }
+            
+                $nombre_funciones_add = new CargosFuncionesConfirmados();
+                $nombre_funciones_add->fill([
+
+                    'nombre'=> $value,
+                    'editado'=> '1',
+                    'creado'=> $fec,
+                    'cargos_id'=> $request->input('id_cargo'),
+                    'funciones_id'=> $f_id[0],
+                
+                    
+                ]);
+                $nombre_funciones_add->save();
+          }else {
+            return back()->withErrors('La funcion ya existe');
+ 
+          }
+        }
+    }
+    else{
+        dd('no tiene nuevas fx para agregar');
+    }
 
 
 
-        /* return redirect('/confirm_vacante'); */
+    //addmorerequirements para el agregado de los requisitos en cargos_requisitos_confirmados si no existen en la tabla fx
+    if($request->input('addmorerequirements')){ //si existen requisitos nuevos por agregar que vengan del formulario
+            
+        foreach ($request->addmorerequirements as $key => $value) {
+
+
+            /*  */
+            $requisitoexiste = Requisitos::where('nombre', $value)->get();
+            $cantidad = count($requisitoexiste);
+            if ($cantidad==0) {
+            
+                foreach($requisitoexiste as $requi){
+                    $r_id[] = $requi->id;
+                }
+            
+                $nombre_req_add = new CargosRequisitosConfirmados();
+                $nombre_req_add->fill([
+
+                    'nombre'=> $value,
+                    'editado'=> '1',
+                    'creado'=> $fec,
+                    'cargos_id'=> $request->input('id_cargo'),
+                    'requisitos_id'=> $r_id[0],
+                
+                    
+                ]);
+                $nombre_req_add->save();
+          }else {
+            return back()->withErrors('El Requisito ya existe');
+ 
+          }
+        }
+    }
+    else{
+        dd('No tiene nuevos requisitos para agregar');
+    }
+
+
+
+
+        
 
         return redirect('/dashboard');
        
