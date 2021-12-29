@@ -48,7 +48,7 @@ class VacantesController extends Controller
                                 ->findOrfail($request->input('id_cargo'));
                                  
                                 
-        dd($request->all());
+        /* dd($request->all()); */
         
 
         
@@ -143,91 +143,99 @@ class VacantesController extends Controller
         }
 
 
-        foreach($request->input('funciones') as $fx){
-            $func[] = $fx;
-        }
+        //si hay fx a modificar
+        if($request->input('funciones')){
+            foreach($request->input('funciones') as $fx){
+                $func[] = $fx;
+            }
 
-        foreach($request->input('requisitos') as $rx){
-            $requi[] = $rx;
-        }
 
+            //*ADD funciones*/
+            if(strcmp ($func[0],$a[1]) == 0){
+                
+                //NO SE HACE NADA DE INSERCION
+            }
+            else{
+                $funciones_agregadas = $func[0];
+                $id_funciones = $a[0];
+                /* dd($funciones_agregadas,$id_funciones); */
+        
+                $nombre_funciones_add = new CargosFuncionesConfirmados();
+                
+                $nombre_funciones_add->fill([
+
+                    'nombre'=> $funciones_agregadas,
+                    'editado'=> '1',
+                    'creado'=> $fec,
+                    'cargos_id'=> $request->input('id_cargo'),
+                    'funciones_id'=> $id_funciones,
+                
+                    
+                ]);
+                $nombre_funciones_add->save();
+        
+            }
+        }
+            
+
+
+
+        //si hay requisitos a modificar
+        if($request->input('requisitos')){
+            foreach($request->input('requisitos') as $rx){
+                $requi[] = $rx;
+            }
+
+            
+            //*ADD requisitos*/
+            if(strcmp ($requi[0],$b[1]) == 0){
+                //NO SE HACE NADA DE INSERCION
+                
+            }
+            else{
+                $requisitos_agregadas = $requi[0];
+                $id_requisitos = $b[0];
+                /* dd($funciones_agregadas,$id_funciones); */
+        
+                $nombre_requisitos_add = new CargosRequisitosConfirmados();
+                
+                $nombre_requisitos_add->fill([
+
+                    'nombre'=> $requisitos_agregadas,
+                    'editado'=> '1',
+                    'creado'=> $fec,
+                    'cargos_id'=> $request->input('id_cargo'),
+                    'requisitos_id'=> $id_requisitos,
+                
+                    
+                ]);
+                $nombre_requisitos_add->save();
+        
+            }
+        }
         
 
 
 
 
-
-        //*ADD funciones*/
-        if(strcmp ($func[0],$a[1]) == 0){
-            
-            //NO SE HACE NADA DE INSERCION
-        }
-        else{
-            $funciones_agregadas = $func[0];
-            $id_funciones = $a[0];
-            /* dd($funciones_agregadas,$id_funciones); */
-    
-            $nombre_funciones_add = new CargosFuncionesConfirmados();
-            
-            $nombre_funciones_add->fill([
-
-                'nombre'=> $funciones_agregadas,
-                'editado'=> '1',
-                'creado'=> $fec,
-                'cargos_id'=> $request->input('id_cargo'),
-                'funciones_id'=> $id_funciones,
-               
-                
-            ]);
-            $nombre_funciones_add->save();
-    
-        }
-
-
-
-        //*ADD requisitos*/
-        if(strcmp ($requi[0],$b[1]) == 0){
-            //NO SE HACE NADA DE INSERCION
-            
-        }
-        else{
-            $requisitos_agregadas = $requi[0];
-            $id_requisitos = $b[0];
-            /* dd($funciones_agregadas,$id_funciones); */
-    
-            $nombre_requisitos_add = new CargosRequisitosConfirmados();
-            
-            $nombre_requisitos_add->fill([
-
-                'nombre'=> $requisitos_agregadas,
-                'editado'=> '1',
-                'creado'=> $fec,
-                'cargos_id'=> $request->input('id_cargo'),
-                'requisitos_id'=> $id_requisitos,
-               
-                
-            ]);
-            $nombre_requisitos_add->save();
-    
-        }
-
-
-       
         //addmorefunction para el agregado de las funciones en cargos_funciones_confirmados si no existen en la tabla fx
        if($request->input('addmorefunction')){ //si existen fx nuevas por agregar que vengan del formulario
             
         foreach ($request->addmorefunction as $key => $value) {
 
-
+           
             /* $funcionesexiste = Cargos::with('funciones')->findOrfail($request->input('id_cargo')); */
-            $funcionexiste = Funciones::where('nombre', $value)->get();
+            $funcionexiste = Funciones::where('nombre', $value['name'])->get();
+            
             $cantidad = count($funcionexiste);
+            dd($funcionexiste,$cantidad,$key);
             if ($cantidad==0) {
             
                 foreach($funcionexiste as $function){
                     $f_id[] = $function->id;
                 }
-            
+                
+                
                 $nombre_funciones_add = new CargosFuncionesConfirmados();
                 $nombre_funciones_add->fill([
 
@@ -247,7 +255,7 @@ class VacantesController extends Controller
         }
     }
     else{
-        dd('no tiene nuevas fx para agregar');
+        /* dd('no tiene nuevas fx para agregar'); */
     }
 
 
@@ -286,7 +294,7 @@ class VacantesController extends Controller
         }
     }
     else{
-        dd('No tiene nuevos requisitos para agregar');
+        /* dd('No tiene nuevos requisitos para agregar'); */
     }
 
 
