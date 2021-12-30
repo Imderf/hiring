@@ -47,8 +47,11 @@ class VacantesController extends Controller
                                 ->with('requisitos')
                                 ->findOrfail($request->input('id_cargo'));
                                  
-                                
-        /* dd($request->all()); */
+        
+        
+
+
+        /* dd($request->all() , $array_fx_id , $array_req_id); */
         
 
         
@@ -130,6 +133,7 @@ class VacantesController extends Controller
 
 
 
+        
 
         //me fijo si vienen vacias los imputs de funciones o requisitos 
         foreach($req_confirmados->funciones as $f){
@@ -145,6 +149,7 @@ class VacantesController extends Controller
 
         //si hay fx a modificar
         if($request->input('funciones')){
+            
             foreach($request->input('funciones') as $fx){
                 $func[] = $fx;
             }
@@ -219,16 +224,21 @@ class VacantesController extends Controller
 
 
         //addmorefunction para el agregado de las funciones en cargos_funciones_confirmados si no existen en la tabla fx
-       if($request->input('addmorefunction')){ //si existen fx nuevas por agregar que vengan del formulario
+    if($request->input('addmorefunction')){ //si existen fx nuevas por agregar que vengan del formulario
             
         foreach ($request->addmorefunction as $key => $value) {
 
            
-            /* $funcionesexiste = Cargos::with('funciones')->findOrfail($request->input('id_cargo')); */
+            $funciones_with_cargos = Cargos::with('funciones')->findOrfail($request->input('id_cargo'));
+            foreach($funciones_with_cargos->funciones as $fx_add){
+                $array_fx_id = $fx_add->pivot->funciones_id;
+            }
+    
+            
+
             $funcionexiste = Funciones::where('nombre', $value['name'])->get();
             
             $cantidad = count($funcionexiste);
-            dd($funcionexiste,$cantidad,$key);
             if ($cantidad==0) {
             
                 foreach($funcionexiste as $function){
@@ -239,11 +249,11 @@ class VacantesController extends Controller
                 $nombre_funciones_add = new CargosFuncionesConfirmados();
                 $nombre_funciones_add->fill([
 
-                    'nombre'=> $value,
+                    'nombre'=> $value['name'],
                     'editado'=> '1',
                     'creado'=> $fec,
                     'cargos_id'=> $request->input('id_cargo'),
-                    'funciones_id'=> $f_id[0],
+                    'funciones_id'=> $array_fx_id,
                 
                     
                 ]);
@@ -266,7 +276,11 @@ class VacantesController extends Controller
         foreach ($request->addmorerequirements as $key => $value) {
 
 
-            /*  */
+            $requisitos_with_cargos = Cargos::with('requisitos')->findOrfail($request->input('id_cargo'));
+            foreach($requisitos_with_cargos->requisitos as $req_add){
+                $array_req_id = $req_add->pivot->requisitos_id;
+            }
+
             $requisitoexiste = Requisitos::where('nombre', $value)->get();
             $cantidad = count($requisitoexiste);
             if ($cantidad==0) {
@@ -278,11 +292,11 @@ class VacantesController extends Controller
                 $nombre_req_add = new CargosRequisitosConfirmados();
                 $nombre_req_add->fill([
 
-                    'nombre'=> $value,
+                    'nombre'=> $value['name'],
                     'editado'=> '1',
                     'creado'=> $fec,
                     'cargos_id'=> $request->input('id_cargo'),
-                    'requisitos_id'=> $r_id[0],
+                    'requisitos_id'=> $array_req_id,
                 
                     
                 ]);
