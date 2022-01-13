@@ -27,14 +27,14 @@
                 </a>
             </div>
             <div class="col-md-4 col-12">
-                <div class="item it3" href="{{ route('users') }}">
+                <a class="item it3" href="{{ route('postulantes') }}">
                     <div class="">
                         <img src="{{ asset('assets/images/icon/item_h_3.png') }}" alt="">
                     </div>
                     <div class="col">
-                        <p class="text">Registros</p>
+                        <p class="text">Registross</p>
                     </div>
-                </div>
+                </a>
             </div>
         </div>
 
